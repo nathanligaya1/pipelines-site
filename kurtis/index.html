@@ -1,0 +1,652 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Habit Publishing · Build Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/elkjs@0.9.3/lib/elk.bundled.js"></script>
+<style>
+:root{
+  --bg:#faf9f5; --paper:#fffefb; --ink:#1f1e1d; --ink2:#3d3a33; --muted:#77736a; --faint:#a8a397; --line:#e7e2d6; --line2:#efebe1; --clay:#c96442;
+  --ok:#3f7d58; --ok-bg:#eef6f0; --bad:#b83a2e; --bad-bg:#fbeceb; --linq:#c1741f; --linq-bg:#fcf1e2; --wait:#4f7394; --wait-bg:#eaf1f7; --nb:#8a8378; --nb-bg:#f3f0e9;
+  --serif:"Source Serif 4", Georgia, serif; --sans:Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;-webkit-font-smoothing:antialiased}
+header{padding:40px 40px 18px;max-width:1500px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--clay);font-weight:600}
+h1{font-family:var(--serif);font-weight:500;font-size:42px;line-height:1.1;margin:10px 0 8px;letter-spacing:-.01em}
+.lede{font-family:var(--serif);font-size:18px;color:var(--ink2);max-width:820px;margin:0}
+.progress{margin-top:22px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.progress .top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.progress .top b{font-family:var(--serif);font-weight:500;font-size:22px}
+.progress .top span{color:var(--muted);font-size:13px}
+.bar{display:flex;height:12px;border-radius:99px;overflow:hidden;background:var(--line2)}
+.bar i{display:block;height:100%}
+.keys{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.key{font:inherit;font-size:13px;display:inline-flex;align-items:center;gap:8px;padding:6px 11px;border-radius:999px;border:1px solid var(--line);background:var(--paper);color:var(--ink2);cursor:pointer}
+.key[aria-pressed=true]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.key s{width:12px;height:12px;border-radius:4px;display:inline-block;text-decoration:none}
+.key b{font-weight:600}
+.tools{position:sticky;top:0;z-index:20;background:rgba(250,249,245,.92);backdrop-filter:blur(8px);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.tools .in{max-width:1500px;margin:0 auto;padding:10px 40px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.btn{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--paper);color:var(--ink2);border-radius:9px;padding:6px 10px;cursor:pointer}
+.btn:hover{border-color:var(--clay);color:var(--clay)}
+.hint{margin-left:auto}
+#stage{position:relative;height:calc(100vh - 64px);min-height:620px;overflow:hidden;cursor:grab;background:
+  radial-gradient(circle at 1px 1px,#e6e0d2 1px,transparent 0) 0 0/22px 22px}
+#stage.drag{cursor:grabbing}
+#stage{touch-action:none;-webkit-user-select:none;user-select:none}
+.fab{position:absolute;right:14px;bottom:14px;display:flex;flex-direction:column;gap:8px;z-index:15}
+.fab button{width:46px;height:46px;border-radius:14px;border:1px solid var(--line);background:rgba(255,254,251,.96);box-shadow:0 6px 18px -8px rgba(60,50,30,.35);font:inherit;font-size:20px;color:var(--ink2);cursor:pointer;display:grid;place-items:center}
+.fab button small{font-size:10.5px;font-weight:600;letter-spacing:.02em}
+.fab button:active{background:#f3efe6}
+select.jump{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--paper);color:var(--ink2);border-radius:9px;padding:6px 8px;max-width:260px}
+.mhint{display:none}
+@media (hover:none),(max-width:700px){.hint{display:none}.mhint{display:inline;margin-left:auto;color:var(--muted)}#tip{display:none}.tools .btn.desk{display:none}}
+@media (max-width:700px){#stage{height:calc(100svh - 104px);min-height:420px}.tools .in{gap:8px;padding:8px 12px}select.jump{flex:1;max-width:none;font-size:15px;padding:9px 10px}.tools .btn{padding:9px 12px;font-size:14px}
+ header{padding:22px 16px 10px} h1{font-size:28px} .lede{font-size:16px} .progress{padding:12px 14px} .key{font-size:12px;padding:6px 9px} .bottom{padding:20px 14px 40px}
+ .drawer{width:100vw;padding:22px 18px 40px}.drawer .x{width:40px;height:40px;font-size:20px}}
+svg{display:block;width:100%;height:100%}
+.lane rect{fill:rgba(255,254,251,.72);stroke:var(--line);stroke-width:1.2;rx:22}
+.lane text{font-family:var(--serif);font-size:19px;fill:var(--ink);font-weight:500}
+.grp rect{fill:rgba(243,239,230,.7);stroke:#d9d2c2;stroke-dasharray:5 5;rx:16}
+.grp text{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;fill:var(--muted)}
+.edge path{fill:none;stroke:#b9b1a0;stroke-width:1.6}
+.edge.nb path{stroke-dasharray:6 5;stroke:#c9c2b3}
+.edge text{font-size:11.5px;fill:var(--muted);paint-order:stroke;stroke:var(--bg);stroke-width:5px;stroke-linejoin:round}
+.edge.hl path{stroke:var(--clay);stroke-width:2.4}
+.edge.hl text{fill:var(--clay);font-weight:600}
+.node{cursor:pointer}
+.card{width:100%;height:100%;border-radius:14px;background:var(--paper);border:1.5px solid var(--line);display:flex;overflow:hidden;box-shadow:0 1px 0 rgba(0,0,0,.03);transition:box-shadow .15s,transform .15s}
+.node:hover .card{box-shadow:0 10px 26px -12px rgba(60,50,30,.35)}
+.card .rail{width:7px;flex:none}
+.card .body{padding:10px 12px 10px;display:flex;flex-direction:column;gap:5px;min-width:0;flex:1}
+.card .own{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.card .t{font-family:var(--serif);font-weight:600;font-size:14.5px;line-height:1.2;color:var(--ink)}
+.card .s{font-size:11.5px;color:var(--muted);line-height:1.3}
+.card .row{display:flex;gap:6px;align-items:center;margin-top:auto;flex-wrap:wrap}
+.pill{font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:99px;white-space:nowrap}
+.cnt{font-size:11px;color:var(--muted);white-space:nowrap}
+.cnt.b{color:var(--bad);font-weight:600}
+.st-ok .card{border-color:#cfe3d5} .st-ok .rail{background:var(--ok)} .st-ok .pill{background:var(--ok-bg);color:var(--ok)}
+.st-missing .card{border-color:#ecbcb6;background:#fffaf9} .st-missing .rail{background:var(--bad)} .st-missing .pill{background:var(--bad-bg);color:var(--bad)}
+.st-linq .card{border-color:#efd2ad} .st-linq .rail{background:var(--linq)} .st-linq .pill{background:var(--linq-bg);color:var(--linq)}
+.st-waiting .card{border-color:#cddbe7} .st-waiting .rail{background:var(--wait)} .st-waiting .pill{background:var(--wait-bg);color:var(--wait)}
+.st-notbuilt .card{border-style:dashed;border-color:#c9c2b3;background:repeating-linear-gradient(135deg,#fbf9f4,#fbf9f4 8px,#f4f1ea 8px,#f4f1ea 16px)} .st-notbuilt .rail{background:repeating-linear-gradient(180deg,#c9c2b3,#c9c2b3 5px,transparent 5px,transparent 10px)} .st-notbuilt .pill{background:var(--nb-bg);color:var(--nb)}
+.kind-start .card,.kind-end .card{border-radius:24px}
+.kind-start .card{background:var(--ink);border-color:var(--ink)} .kind-start .t{color:#fff} .kind-start .s{color:#cfc9bd} .kind-start .rail{background:var(--clay)}
+.dim{opacity:.18}
+.sel .card{box-shadow:0 0 0 3px rgba(201,100,66,.45)}
+/* tooltip */
+#tip{position:fixed;z-index:60;width:360px;max-width:92vw;background:#27241f;color:#f4efe6;border-radius:14px;padding:14px 16px;font-size:12.5px;line-height:1.45;box-shadow:0 18px 40px -14px rgba(0,0,0,.55);pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s}
+#tip.on{opacity:1;transform:none}
+#tip h5{font-family:var(--serif);font-size:16px;font-weight:600;margin:0 0 6px;color:#fff}
+#tip .lab{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#a79f90;margin:9px 0 3px;font-weight:600}
+#tip ul{margin:0;padding-left:16px} #tip li{margin:1px 0}
+#tip .miss{background:rgba(214,84,70,.18);border-left:3px solid #e26a5c;padding:6px 9px;border-radius:6px;color:#ffd9d3;margin-top:3px}
+#tip .miss.lq{background:rgba(214,146,70,.16);border-left-color:#e39a45;color:#ffe3c2}
+#tip .more{color:#a79f90;margin-top:8px;font-size:11.5px}
+/* drawer */
+.scrim{position:fixed;inset:0;background:rgba(31,30,29,.25);opacity:0;pointer-events:none;transition:.2s;z-index:70}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(480px,94vw);background:var(--paper);border-left:1px solid var(--line);z-index:71;transform:translateX(100%);transition:transform .25s ease;padding:28px 26px 40px;overflow:auto}
+.open .scrim{opacity:1;pointer-events:auto} .open .drawer{transform:none}
+.drawer h3{font-family:var(--serif);font-weight:500;font-size:25px;margin:8px 0 6px;line-height:1.2}
+.drawer .x{position:absolute;top:16px;right:16px;border:1px solid var(--line);background:var(--paper);border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:16px}
+.sec{margin-top:18px} .sec h4{margin:0 0 7px;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.it{border:1px solid var(--line2);background:#fcfbf7;border-radius:10px;padding:9px 11px;margin-bottom:6px;font-size:13.5px;color:var(--ink2)}
+.it b{color:var(--ink)} .it small{display:block;color:var(--muted);margin-top:2px;font-size:12px}
+.it.bad{background:var(--bad-bg);border-color:#efc7c1} .it.lq{background:var(--linq-bg);border-color:#efd8b8}
+.it a{color:var(--clay);font-weight:500;text-decoration:none;font-size:12.5px}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block;vertical-align:0} .dot.g{background:#3aa55d} .dot.r{background:#d64533}
+.bottom{max-width:1500px;margin:0 auto;padding:30px 40px 60px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:20px 22px}
+.panel h3{font-family:var(--serif);font-weight:500;font-size:21px;margin:0 0 10px}
+.dec{display:flex;gap:10px;padding:9px 0;border-top:1px solid var(--line2);font-size:13.5px;color:var(--ink2)} .dec:first-of-type{border-top:0}
+.who{font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:6px;height:fit-content;white-space:nowrap}
+.who.n{background:#f6e6de;color:var(--clay)} .who.k{background:#e6edf3;color:#5a7d9a}
+.miss-row{display:flex;gap:10px;padding:8px 0;border-top:1px solid var(--line2);font-size:13px;color:var(--ink2);cursor:pointer} .miss-row:first-of-type{border-top:0} .miss-row:hover b{color:var(--clay)}
+.miss-row s{width:10px;height:10px;border-radius:3px;flex:none;margin-top:4px}
+/* tabs + linear paths */
+.tabs{display:inline-flex;background:var(--line2);border-radius:11px;padding:3px;gap:3px}
+.tabs button{font:inherit;font-size:13.5px;font-weight:500;border:0;background:transparent;color:var(--ink2);padding:7px 14px;border-radius:9px;cursor:pointer}
+.tabs button[aria-pressed=true]{background:var(--paper);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+body.v-paths #stage, body.v-paths .maponly{display:none!important}
+body.v-map #paths{display:none}
+#paths{max-width:1500px;margin:0 auto;padding:22px 40px 10px;display:flex;flex-direction:column;gap:18px}
+.path{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:16px 18px 6px}
+.phead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.phead h3{font-family:var(--serif);font-weight:500;font-size:20px;margin:0}
+.phead .pdesc{color:var(--muted);font-size:13.5px;flex-basis:100%;margin-top:2px}
+.phead .pst{font-size:11px;font-weight:600;padding:3px 9px;border-radius:99px}
+.phead .pcount{font-size:12px;color:var(--muted)}
+.ptrack{display:flex;align-items:stretch;overflow-x:auto;padding:14px 2px 14px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.step{flex:none;width:212px;cursor:pointer}
+.step .card{height:100%}
+.arr{flex:none;width:92px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:0 4px;position:relative}
+.arr span{font-size:11.5px;color:var(--muted);text-align:center;line-height:1.25;margin-bottom:6px;min-height:14px}
+.arr i{display:block;width:100%;height:2px;background:#cfc8b8;position:relative}
+.arr i:after{content:"";position:absolute;right:-1px;top:-4px;border:5px solid transparent;border-left-color:#b9b1a0;border-right:0}
+.needs{font-size:11.5px;line-height:1.35;color:var(--bad);background:var(--bad-bg);border-radius:7px;padding:5px 7px;margin-top:2px}
+.needs.lq{color:var(--linq);background:var(--linq-bg)}
+.needs b{font-weight:700}
+.pneeds{flex-basis:100%;font-size:13px;color:var(--bad);margin-top:4px}
+.pneeds.ok{color:var(--ok)}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
+.chip{font-size:11px;font-weight:600;min-width:22px;height:22px;padding:0 5px;border-radius:6px;display:inline-grid;place-items:center;cursor:pointer;border:1px solid transparent}
+.chip.st-ok{background:var(--ok-bg);color:var(--ok);border-color:#cfe3d5} .chip.st-missing{background:var(--bad-bg);color:var(--bad);border-color:#ecbcb6}
+.chip.st-linq{background:var(--linq-bg);color:var(--linq);border-color:#efd2ad} .chip.st-waiting{background:var(--wait-bg);color:var(--wait);border-color:#cddbe7} .chip.st-notbuilt{background:var(--nb-bg);color:var(--nb);border-style:dashed;border-color:#c9c2b3}
+.chip.dim,.step.dim{opacity:.2}
+@media(max-width:700px){#paths{padding:14px 10px 6px;gap:14px}.path{padding:14px 12px 10px;border-radius:14px}.phead h3{font-size:18px}
+ .ptrack{flex-direction:column;overflow:visible;padding:12px 0 4px}
+ .step{width:100%}
+ .arr{width:100%;height:auto;flex-direction:row;justify-content:flex-start;padding:4px 0 4px 26px;gap:10px}
+ .arr i{width:2px;height:30px;order:-1;flex:none}
+ .arr i:after{right:auto;left:-4px;top:auto;bottom:-1px;border:5px solid transparent;border-top-color:#b9b1a0;border-bottom:0}
+ .arr span{margin:0;text-align:left;font-size:12.5px}}
+footer{color:var(--muted);font-size:12px;text-align:center;padding:0 0 40px}
+@media(max-width:900px){.bottom{grid-template-columns:1fr} header{padding:28px 20px 14px} h1{font-size:32px} .tools .in{padding:10px 20px}}
+</style>
+</head>
+<body class="v-paths">
+<header>
+  <div class="eyebrow">Habit Publishing · GoHighLevel build</div>
+  <h1>Where the build stands</h1>
+  <p class="lede">Each row follows one kind of lead from start to finish. Each box is a stage, and its color shows how finished it is. Hover a box for the details, or click it for links into GHL.</p>
+  <div class="progress"><div class="top"><b id="ptitle"></b><span id="psub"></span></div><div class="bar" id="pbar"></div><div class="keys" id="keys"></div></div>
+</header>
+<div class="tools"><div class="in">
+  <div class="tabs" id="tabs"><button data-tab="paths" aria-pressed="true">Lead paths</button><button data-tab="map" aria-pressed="false">Full map</button></div>
+  <select class="jump maponly" id="jump" aria-label="Jump to a stage"><option value="">Jump to a stage…</option></select><button class="btn desk maponly" id="fit">Fit to screen</button><button class="btn desk maponly" id="zin">＋</button><button class="btn desk maponly" id="zout">－</button>
+  <button class="btn maponly" id="grp">Expand day-by-day stages</button>
+  <span class="mhint maponly">Drag to move. Pinch to zoom. Tap a box.</span><span class="hint maponly">Drag to move. Scroll to zoom. Click a color above to show only those stages.</span>
+</div></div>
+<section id="paths"></section>
+<div id="stage"><svg id="svg"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b9b1a0"/></marker>
+<marker id="arh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#c96442"/></marker></defs><g id="vp"></g></svg><div class="fab"><button id="fzin" aria-label="Zoom in">＋</button><button id="fzout" aria-label="Zoom out">－</button><button id="ffit" aria-label="Show the whole chart"><small>ALL</small></button><button id="fstart" aria-label="Go to the start"><small>START</small></button></div></div>
+<div class="bottom">
+  <div class="panel"><h3>Everything still missing</h3><div id="misslist"></div></div>
+  <div class="panel"><h3>Waiting on a decision</h3><div id="decisions"></div></div>
+</div>
+<footer id="foot"></footer>
+<div id="tip"></div>
+<div class="scrim" id="scrim"></div><aside class="drawer" id="drawer"><button class="x" id="x">×</button><div id="dbody"></div></aside>
+
+<script>
+// Habit Publishing pipeline map: source data. Verified against live GHL + the 2026-09-25 test run.
+// Edit here, then run deploy.sh (build + publish). Copy rule: short, complete sentences; say who does what.
+window.MAP = {
+  verified: "2026-09-25",
+  loc: "p1zMG5WI3jx6xCJblUJJ",
+  roles: {
+    setter: { label: "Setter", who: "Nathan, until a setter is hired", color: "#c96442" },
+    chelsea: { label: "Chelsea", who: "Runs the interview calls", color: "#5a7d9a" },
+    rep: { label: "Sales rep", who: "Not named yet (Kurtis Q7)", color: "#7a6aa8" },
+    lead: { label: "Lead", who: "The nominee", color: "#8a8378" },
+    auto: { label: "GHL", who: "Automation", color: "#3f7d58" }
+  },
+  // Workflows. status: live | draft. ok:false = incomplete (red), with "missing".
+  wf: {
+    nominee:  { name: "New Nominee Creation + Opportunity Workflow", id: "12202f6f-b81e-478d-ad52-31bddc1ffcd9", status: "live", trigger: "Someone submits the nomination form.", does: "Creates the contact and the setter's card, and posts the nominee in Slack #new-nominations.", ok: true },
+    nomconf:  { name: "1. Nomination Confirmation Sequence", id: "6a318113-fa56-4376-ae32-e19da317d77d", status: "live", trigger: "The nominator completes the nomination survey.", does: "Emails the nominator to confirm we received the nomination.", ok: true },
+    intake:   { name: "Setter Intake - New card: Green + owner", id: "b599a9fd-19e1-4fd3-ac19-1edc0dd05b68", status: "live", trigger: "Any new card lands in the setter pipeline.", does: "Turns the card 🟢 and makes Nathan the owner.", ok: true, test: "pass" },
+    apolloTask: { name: "Apollo Nominations - Setter Queue", id: "4e64af17-91ac-46a0-948e-d2a02f20eb46", status: "live", trigger: "An Apollo lead is tagged.", does: "Creates a GHL task to call the lead.", ok: false, missing: "It uses a GHL task, and we've dropped tasks for 🟢 dots. Waiting on your OK to turn it off." },
+    apolloD5: { name: "Apollo - Close as Abandoned at end of Day 5", id: "08ac29cb-9eab-4366-a521-24c8bde5a22b", status: "live", trigger: "An Apollo lead reaches Day 5.", does: "Closes the card as Abandoned that night.", ok: false, missing: "It's live, but on Sep 23 you decided Apollo leads get all 10 days. Open question." },
+    day1:  { name: "Day 1 - 1st Call", id: "30b8dc29-835c-49f8-b286-0390f727cefe", status: "live", trigger: "The card enters Day 1.", does: "Turns the card 🔴, then 🟢 after midnight.", ok: true, test: "pass" },
+    day2:  { name: "Day 2 - 2nd Call", id: "28e0a757-813e-42db-978d-3d5a74d4f9fd", status: "live", trigger: "The card enters Day 2.", does: "Turns the card 🔴, then 🟢 after midnight.", ok: true },
+    day3:  { name: "Day 3 - 3rd Call", id: "12738dc7-a6a0-4c95-bcf1-487f3c15812f", status: "live", trigger: "The card enters Day 3.", does: "Turns the card 🔴, then moves it to Day 4 after midnight.", ok: true },
+    day4:  { name: "Day 4 - No Contact", id: "aa797de0-19d1-4e76-8236-4d334595ba25", status: "live", trigger: "The card enters Day 4.", does: "Turns the card 🔴, then 🟢 after midnight.", ok: true },
+    day5:  { name: "Day 5 - Final Call Attempt + Nominator Reactivation", id: "08c91813-4103-4864-979e-8bee1c8644bf", status: "live", trigger: "The card enters Day 5.", does: "Turns the card 🔴, then moves it to Day 6 after midnight.", ok: true },
+    day6:  { name: "Day 6 - No Contact", id: "0a399934-abc1-4ff2-a85b-9038deea3df9", status: "live", trigger: "The card enters Day 6.", does: "Turns the card 🔴, then 🟢 after midnight.", ok: true },
+    day7:  { name: "Day 7 - Final Nominator Reactivation", id: "0ab1c5e3-78f5-44f1-86a7-ae2f86f7d5bc", status: "live", trigger: "The card enters Day 7.", does: "Turns the card 🔴, then moves it to Day 8 after midnight.", ok: true },
+    day8:  { name: "Day 8 - No Contact", id: "b0b77646-1ec5-473b-91ba-3b9d64ef0b69", status: "live", trigger: "The card enters Day 8.", does: "Moves the card to Day 9 after midnight.", ok: true },
+    day9:  { name: "Day 9 - No Contact", id: "e633c25d-6af7-4a18-b7cc-e8505446e5dd", status: "live", trigger: "The card enters Day 9.", does: "Moves the card to Day 10 after midnight.", ok: true },
+    day10: { name: "Day 10 - No Contact", id: "84ca9ce6-ce51-4abc-81a5-861a660bb9c9", status: "live", trigger: "The card enters Day 10.", does: "Closes the card as Abandoned after midnight.", ok: true },
+    exitc: { name: "Exit Cadence - Booked, Lost, Abandoned or Won", id: "461f5cad-b9c3-418b-b5a4-4d327a517c22", status: "live", trigger: "The lead books, wins, or is closed as Lost or Abandoned.", does: "Stops the Day 1-10 cadence for that lead.", ok: true, test: "pass" },
+    reply: { name: "Reply Detected - Move to Responded", id: "39730588-1158-4222-b8a4-d01bf94e3a84", status: "live", trigger: "The lead replies by text or email. Auto-replies are ignored.", does: "Moves the card to Responded.", ok: false, missing: "Texts can't arrive until Linq is set up. Email replies should work but aren't tested." },
+    responded: { name: "Responded - Move + Exit Cadence", id: "58584a7a-0c82-4bf3-8e4d-2a9570152d60", status: "live", trigger: "The card enters Responded.", does: "Turns the card 🟢 and stops the Day 1-10 cadence.", ok: true, test: "pass" },
+    optout: { name: "SMS Opt-Out - Tag contact", id: "34ba3e60-d728-45ab-9bb6-6cabdd55f9f3", status: "live", trigger: "The lead replies STOP or Unsubscribe.", does: "Tags the lead so the setter only calls or emails.", ok: false, missing: "Texts can't arrive until Linq is set up." },
+    booked: { name: "Booked Interview - Create Discovery Call Card (Chelsea)", id: "02b3e44b-c1a6-4d91-b173-a3456105834f", status: "live", trigger: "The lead books an interview with Chelsea.", does: "Creates Chelsea's card and moves the setter's card to Scheduled 🔴.", ok: true, test: "fixed" },
+    reminders: { name: "Qualification/Interview Call Appointment Reminders", id: "71fff51a-0864-4852-9bf8-d785a7b78b13", status: "live", trigger: "The lead books an interview with Chelsea.", does: "Sends the confirmation and reminders, posts to Slack, and updates the nominator after the call.", ok: false, missing: "It finds the setter's card by exact name, which can miss. Its texts need Linq. Emails come \"from Sarah\" but are signed by the setter." },
+    rebooked: { name: "Rebooked - Move Discovery card back to Scheduled", id: "b8670eab-c47e-41c6-a5d7-4ac236b062e9", status: "live", trigger: "The lead books the interview again.", does: "Moves Chelsea's card back to Scheduled.", ok: true, test: "pass" },
+    apptNoShow: { name: "Appointment marked No Show - Move Discovery card to No Show", id: "ebb11f72-a3db-4b7a-87e4-c95f278afede", status: "live", trigger: "Chelsea marks the interview a no-show.", does: "Moves Chelsea's card to No Show.", ok: true, test: "pass" },
+    sendBack: { name: "No Show - Send back to setter (Day 1-3 snippets, then Abandoned)", id: "21b43b50-ab44-4f41-a531-03bf6314f3e3", status: "live", trigger: "Chelsea's card moves to No Show.", does: "Moves the setter's card through No Show Day 1, 2 and 3, one per day, each 🟢. Closes it as Abandoned if they don't rebook.", ok: true, test: "pass" },
+    showedWon: { name: "Showed Up (Qualified or Disqualified) - Setter card Won", id: "816e6061-a039-410d-9217-fe9b22d64c4e", status: "live", trigger: "Chelsea marks the lead Qualified or Disqualified.", does: "Marks the setter's card Won.", ok: true, test: "pass" },
+    dq1: { name: "1. Disqualified Automation", id: "f0758864-3c2c-4dff-9c72-49fec2c2dd19", status: "live", trigger: "Chelsea marks the lead Disqualified.", does: "Closes Chelsea's card and opens a Disqualified card for the setter. Waits 2 days, then moves it through Day 1-6, one per day. Closes it as Abandoned if they never book.", ok: true, test: "fixed" },
+    ds2: { name: "2. Booked Downsell Call/Awaiting Confirmation", id: "d6018a79-3152-4124-8666-c6ff95f48f76", status: "live", trigger: "The lead books a downsell call.", does: "Creates the sales rep's card and emails the booking details. Two days before the call, it asks the lead to confirm.", ok: false, missing: "If the lead doesn't click confirm within 6 hours, the call is cancelled. Waiting on your call: keep that, or switch to a 🟢 call-to-confirm. The sales card has no owner until Kurtis names the rep.", test: "pass" },
+    ds3: { name: "3. Booked Downsell Sales Call Reminders", id: "b2e0a6b9-cd40-4555-a423-9a10d9a18796", status: "live", trigger: "The downsell call is confirmed.", does: "Cancels the confirm request, moves the sales card to Confirmed, and sends the reminders.", ok: true, test: "fixed" },
+    ds4: { name: "4. Downsell Call No Show Sequence", id: "075e526b-1b77-4baf-999c-f0fee90677c4", status: "live", trigger: "The sales rep marks the downsell call a no-show.", does: "Sends the lead back to the setter 🟢 and emails them to rebook. Stops when they rebook.", ok: true, test: "pass" },
+    dsWon: { name: "Downsell Showed Up - Setter card Won", id: "815572ce-2834-4212-a875-b41a611a067e", status: "live", trigger: "The sales rep marks the lead Showed Up or Closed.", does: "Marks the setter's Disqualified card Won.", ok: true, test: "pass" }
+  },
+  // Comms. kind: email | sms | slack | webhook. ok:false = red. manual:true = setter sends a snippet.
+  pipelines: [
+    {
+      key: "setter", name: "Appointment Setters", sub: "New lead → interview booked", owner: "setter",
+      blurb: "The setter works each card by its dot: 🟢 means call today, 🔴 means nothing is due today.",
+      stages: [
+        { name: "Nominated/Awaiting Setter Outreach", dot: "🟢 when it arrives", enters: ["Someone nominates them on the form."], auto: ["nominee", "intake", "nomconf"],
+          human: [["setter", "Call the lead. No answer: move them to Day 1. They answer: move them to Responded. They agree: book the interview."]],
+          comms: [{ kind: "slack", text: "Slack alert for each new nominee", ok: true }, { kind: "email", text: "Confirmation email to the nominator", ok: true }], test: "pass" },
+        { name: "Apollo Leads/Awaiting Setter Outreach", dot: "🟢 when it arrives", enters: ["Apollo imports them."], auto: ["intake", "apolloTask"],
+          human: [["setter", "Same as a nominee. If the card has no nominator, skip the nominator steps."]],
+          comms: [], issues: ["About 1,023 older Apollo cards have no dot. They need a one-time update."], test: "paper" },
+        { name: "Day 1 - 1st Call", dot: "🔴, then 🟢 the next morning", enters: ["The first call went unanswered."], auto: ["day1", "exitc"],
+          human: [["setter", "When it turns 🟢, call again. No answer: move it to Day 2."]], comms: [], test: "pass" },
+        { name: "Day 2 - 2nd Call", dot: "🔴, then 🟢 the next morning", enters: ["The setter moves it from Day 1."], auto: ["day2", "exitc"], human: [["setter", "When it turns 🟢, call again. No answer: move it to Day 3."]], comms: [], test: "paper" },
+        { name: "Day 3 - 3rd Call", dot: "🔴, moves on by itself", enters: ["The setter moves it from Day 2."], auto: ["day3", "exitc"], human: [["setter", "Nothing. It moves to Day 4 by itself."]], comms: [], test: "paper" },
+        { name: "Day 4 - No Contact", dot: "🔴, then 🟢 the next morning", enters: ["It moves here from Day 3."], auto: ["day4", "exitc"], human: [["setter", "No call today. When it turns 🟢, call and move it to Day 5."]], comms: [], test: "paper" },
+        { name: "Day 5 - Final Call + Nominator Reactivation", dot: "🔴, moves on by itself", enters: ["The setter moves it from Day 4."], auto: ["day5", "apolloD5", "exitc"],
+          human: [["setter", "Text the nominator and ask them to nudge the lead."]], comms: [{ kind: "sms", text: "Text to the nominator (sent by hand)", ok: false, missing: "The wording isn't written yet; Kurtis needs to provide or approve it. Texts also need Linq." }], test: "paper" },
+        { name: "Day 6 - No Contact", dot: "🔴, then 🟢 the next morning", enters: ["It moves here from Day 5."], auto: ["day6", "exitc"], human: [["setter", "When it turns 🟢, call and move it to Day 7."]], comms: [], test: "paper" },
+        { name: "Day 7 - Final Nominator Reactivation", dot: "🔴, moves on by itself", enters: ["The setter moves it from Day 6."], auto: ["day7", "exitc"],
+          human: [["setter", "Send the nominator one last nudge."]], comms: [{ kind: "sms", text: "Last text to the nominator (sent by hand)", ok: false, missing: "The wording isn't written yet. Texts also need Linq." }], test: "paper" },
+        { name: "Day 8 - No Contact", dot: "🔴", enters: ["It moves here from Day 7."], auto: ["day8", "exitc"], human: [["setter", "Nothing today."]], comms: [], test: "paper" },
+        { name: "Day 9 - No Contact", dot: "🔴", enters: ["It moves here from Day 8."], auto: ["day9", "exitc"], human: [["setter", "Nothing today."]], comms: [], test: "paper" },
+        { name: "Day 10 - No Contact", dot: "🔴, then closed", enters: ["It moves here from Day 9."], auto: ["day10", "exitc"], human: [["setter", "Nothing. The card closes as Abandoned overnight."]], comms: [], test: "paper" },
+        { name: "Responded To Contact/Awaiting Booked Call", dot: "🟢", enters: ["The lead answered a call.", "The lead replied by text or email (texts need Linq)."], auto: ["responded", "reply", "optout"],
+          human: [["setter", "Follow up daily until they book. After 10 silent days, close it as Abandoned. If they say no, close it as Lost."]],
+          comms: [], issues: ["The \"Uninterested\" lost reason isn't set up yet. Waiting on Kurtis."], test: "pass" },
+        { name: "Scheduled Qualification Call/Awaiting Interview", dot: "🔴", enters: ["The lead booked an interview with Chelsea."], auto: ["booked", "reminders", "exitc"],
+          human: [["setter", "Nothing. Chelsea takes it from here."]],
+          comms: [{ kind: "email", text: "Confirmation email with the Zoom link", ok: true, test: "pass" }, { kind: "email", text: "Reminder emails 2 days and 1 day before", ok: true },
+            { kind: "sms", text: "Reminder texts", ok: false, missing: "Texts need Linq." },
+            { kind: "slack", text: "Slack alert in #booked-discovery-calls", ok: true, test: "pass" }, { kind: "webhook", text: "Update to the nominator after the interview", ok: true }], test: "fixed" },
+        { name: "No Show - Day 1 - Email + Text + Call", dot: "🟢", enters: ["The lead missed the interview."], auto: ["sendBack"],
+          human: [["setter", "Call, then send the Day 1 email and text snippets from the \"Interview No Show\" folder."]],
+          issues: ["Kurtis's playbook doesn't cover this. The setter owns no-show follow-up; ask Kurtis to add it and confirm 3 days vs 10."],
+          comms: [{ kind: "email", text: "\"Oops, did you forget?\" email (sent by hand)", ok: true, manual: true }, { kind: "sms", text: "Rebook text (sent by hand)", ok: false, manual: true, missing: "Texts need Linq." }], test: "pass" },
+        { name: "No Show - Day 2 - Email + Call", dot: "🟢", enters: ["One day after the no-show."], auto: ["sendBack"], human: [["setter", "Call, then send the Day 2 email snippet."]],
+          comms: [{ kind: "email", text: "\"It's not too late\" email (sent by hand)", ok: true, manual: true }], test: "paper" },
+        { name: "No Show - Day 3 - Last Reminder Email + Call", dot: "🟢, then closed", enters: ["Two days after the no-show."], auto: ["sendBack"], human: [["setter", "Call, then send the Last Reminder email. If they don't rebook by the next day, the card closes."]],
+          comms: [{ kind: "email", text: "\"Last Reminder!\" email (sent by hand)", ok: true, manual: true }], test: "paper" },
+        { name: "Showed Up/Won", dot: "Won", enters: ["The lead showed up for the interview."], auto: ["showedWon"], human: [["setter", "Done. The setter gets credit once the lead shows up."]], comms: [], test: "pass" }
+      ]
+    },
+    {
+      key: "disc", name: "Discovery Call", sub: "Interview booked → qualified or disqualified", owner: "chelsea",
+      blurb: "Chelsea's board. After each interview she marks the lead Qualified or Disqualified.",
+      stages: [
+        { name: "Scheduled Qualification Call/Awaiting Interview", enters: ["The lead booked an interview."], auto: ["booked", "rebooked"],
+          human: [["chelsea", "Run the Zoom interview. Then mark the lead Qualified, Disqualified, or No-show."]],
+          comms: [], issues: ["Chelsea still needs to connect her Zoom and set her hours. Her personal Zoom room is used for now."], test: "pass" },
+        { name: "Showed Up/Qualified", enters: ["Chelsea marks the lead Qualified."], auto: ["showedWon"], human: [["chelsea", "Book the lead's sales call with the closer."]], comms: [], test: "pass" },
+        { name: "Showed Up/Disqualified", enters: ["Chelsea marks the lead Disqualified."], auto: ["showedWon", "dq1"], human: [["chelsea", "Tell the lead the review takes a few days. The setter takes over after that."]], comms: [], test: "fixed" },
+        { name: "Scheduled Sales Call/Awaiting Confirmation", enters: ["Chelsea books the closer's call."], auto: [], human: [["chelsea", "Book the call."]], comms: [], notbuilt: "The closer's sales call process isn't connected yet." },
+        { name: "Sales Call Confirmed/Awaiting Sales Call", enters: [], auto: [], human: [], comms: [], notbuilt: "Part of the closer phase, not built yet." },
+        { name: "No Show", enters: ["The lead missed the interview."], auto: ["apptNoShow", "sendBack"], human: [["chelsea", "Nothing. The setter follows up to rebook them."]],
+          comms: [], test: "pass" }
+      ]
+    },
+    {
+      key: "dq", name: "Disqualified → Downsell Offer", sub: "Setter follow-up for disqualified leads", owner: "setter",
+      blurb: "The setter sends every message here by hand, using the \"Downsell\" snippets. The stage name says which snippet to send that day.",
+      stages: [
+        { name: "Disqualified - Review Period (No Contact)", dot: "no dot, 2-day wait", enters: ["Chelsea marked the lead Disqualified.", "The lead failed the qualification survey."], auto: ["dq1"],
+          human: [["setter", "Nothing for 2 days, since Chelsea told them the review takes a few days."]], comms: [],
+          issues: ["If the survey disqualifies a lead, their setter card stays open, so the setter might keep calling them."], test: "fixed" },
+        { name: "Day 1 - Rejection Email + Call", dot: "🟢", enters: ["The 2-day wait ends."], auto: ["dq1"], human: [["setter", "Call, then send the Day 1 rejection-and-offer email."]], comms: [{ kind: "email", text: "Rejection and offer email (sent by hand)", ok: true, manual: true }], test: "paper" },
+        { name: "Day 2 - Follow Up Call", dot: "🟢", enters: ["The next day."], auto: ["dq1"], human: [["setter", "Call."]], comms: [], test: "paper" },
+        { name: "Day 3 - Reminder Email + 2 Texts", dot: "🟢", enters: ["The next day."], auto: ["dq1"], human: [["setter", "Send the Day 3 email and both texts."]],
+          comms: [{ kind: "email", text: "Reminder email (sent by hand)", ok: true, manual: true }, { kind: "sms", text: "Two texts (sent by hand)", ok: false, manual: true, missing: "Texts need Linq." }], test: "paper" },
+        { name: "Day 4 - More Details Email", dot: "🟢", enters: ["The next day."], auto: ["dq1"], human: [["setter", "Send the Day 4 email."]], comms: [{ kind: "email", text: "More details email (sent by hand)", ok: true, manual: true }], test: "paper" },
+        { name: "Day 5 - Last Call Email", dot: "🟢", enters: ["The next day."], auto: ["dq1"], human: [["setter", "Send the Day 5 email."]], comms: [{ kind: "email", text: "Last call email (sent by hand)", ok: true, manual: true }], test: "paper" },
+        { name: "Day 6 - Author Factory Email", dot: "🟢, then closed", enters: ["The next day."], auto: ["dq1"], human: [["setter", "Send the Day 6 email. If they don't book by the next day, the card closes."]], comms: [{ kind: "email", text: "Author Factory email (sent by hand)", ok: true, manual: true }], test: "paper" },
+        { name: "Scheduled Downsell Call/Awaiting Call", dot: "🔴", enters: ["The lead booked a downsell call."], auto: ["ds2"], human: [["setter", "Nothing. The sales rep takes the call."]], comms: [], test: "pass" },
+        { name: "No Show/Needs Rebook", dot: "🟢", enters: ["The lead missed the downsell call."], auto: ["ds4"], human: [["setter", "Call and rebook them."]], comms: [], test: "pass" },
+        { name: "Showed Up/Won", dot: "Won", enters: ["The lead showed up for the downsell call."], auto: ["dsWon"], human: [["setter", "Done."]], comms: [], test: "pass" }
+      ]
+    },
+    {
+      key: "ds", name: "Downsell Sales Call", sub: "Downsell call booked → closed", owner: "rep",
+      blurb: "The sales rep's board. Once Kurtis names the rep, these messages will be signed by them as Head of Nominations. Until then, the setter signs them.",
+      stages: [
+        { name: "Scheduled Downsell Call/Awaiting Confirmation", enters: ["The lead booked a downsell call."], auto: ["ds2"],
+          human: [["lead", "Clicks the confirm link in the email."], ["rep", "Or confirms the call by hand."]],
+          comms: [{ kind: "email", text: "\"You've booked your call\" email", ok: true, test: "pass" }, { kind: "email", text: "\"Can you confirm?\" email 2 days before", ok: true }, { kind: "email", text: "Cancellation email if they don't confirm", ok: false, missing: "Waiting on your decision about auto-cancelling." }],
+          issues: ["The downsell calendar has no Zoom link, and only Almas is on it. Waiting on Kurtis to name the rep."], test: "pass" },
+        { name: "Downsell Call Confirmed/Awaiting Call", enters: ["The lead confirmed the call."], auto: ["ds3"],
+          human: [["rep", "Take the call, then mark the result: no sale, sale, or no-show."]],
+          comms: [{ kind: "email", text: "Confirmation email", ok: true, test: "pass" }, { kind: "email", text: "Reminder emails 2 days and 1 day before", ok: true }, { kind: "sms", text: "Reminder texts", ok: false, missing: "Texts need Linq." }], test: "fixed" },
+        { name: "No Show", enters: ["The lead missed the call."], auto: ["ds4"], human: [["rep", "Nothing. The setter rebooks them."]],
+          comms: [{ kind: "email", text: "Three rebook emails", ok: true, test: "pass" }, { kind: "sms", text: "Rebook text", ok: false, missing: "Texts need Linq." }], test: "pass" },
+        { name: "Showed Up/Did Not Close", enters: ["The lead showed up but didn't buy."], auto: ["dsWon"], human: [["rep", "Follow up by hand."]], comms: [], issues: ["There's no follow-up sequence after a no-sale yet."], test: "paper" },
+        { name: "Closed/Payment Received", enters: ["The lead bought."], auto: ["dsWon"], human: [["rep", "Mark the card Won."]], comms: [], notbuilt: "The hand-off to Book Writing Fulfillment isn't built yet.", test: "pass" }
+      ]
+    }
+  ],
+  later: [
+    { name: "Sales Call (closer)", note: "Old workflows exist, but they haven't been reviewed or connected to Chelsea's Qualified stage." },
+    { name: "Book Writing Fulfillment", note: "Onboarding through publishing. This is the post-purchase phase." }
+  ],
+  decisions: [
+    { who: "Nathan", q: "Downsell auto-cancel: keep it, or have the setter call to confirm instead?" },
+    { who: "Nathan", q: "Apollo Day 5 close: it's live, but you decided Apollo gets all 10 days. Left open for now." },
+    { who: "Nathan", q: "Turn off the Apollo task workflow, since we no longer use GHL tasks?" },
+    { who: "Kurtis", q: "Who is the downsell sales rep, and what's their Zoom link? They'll sign as Head of Nominations." },
+    { who: "Kurtis", q: "What should the Day 5 and Day 7 texts to the nominator say?" },
+    { who: "Kurtis", q: "Add interview no-show follow-up to the playbook as a setter job, and confirm 3 days or 10." },
+    { who: "Kurtis", q: "Confirm the \"Uninterested\" lost reason and the 10-day follow-up rule." }
+  ]
+};
+
+// Flowchart structure on top of data.js (window.MAP). Stage refs are "pipelineKey:name prefix".
+window.FLOW = {
+  lanes: [
+    { key: "setter", title: "Setter · Appointment Setters", role: "setter" },
+    { key: "disc", title: "Chelsea · Discovery Call", role: "chelsea" },
+    { key: "dq", title: "Setter · Disqualified follow-up", role: "setter" },
+    { key: "ds", title: "Sales rep · Downsell Sales Call", role: "rep" }
+  ],
+  // groups collapse runs of day stages into one box that you can open
+  groups: [
+    { id: "g-cadence", lane: "setter", title: "10-day call cadence", match: /^Day \d+ - /, pipe: "setter" },
+    { id: "g-noshow", lane: "setter", title: "No-show follow-up (setter, not in playbook)", match: /^No Show - Day /, pipe: "setter" },
+    { id: "g-dq", lane: "dq", title: "Disqualified follow-up (Day 1-6)", match: /^Day \d - /, pipe: "dq" }
+  ],
+  extra: [
+    { id: "start", lane: null, label: "New lead", sub: "From the nomination form or Apollo", kind: "start", status: "ok" },
+    { id: "end-aband", lane: "setter", label: "Abandoned", sub: "The lead went silent.", kind: "end", status: "ok" },
+    { id: "end-lost", lane: "setter", label: "Lost · Uninterested", sub: "The lead said no.", kind: "end", status: "missing", missing: "The \"Uninterested\" lost reason isn't set up yet. Waiting on Kurtis." },
+    { id: "end-closer", lane: "disc", label: "Closer's sales call", sub: "The closer's pipeline", kind: "end", status: "notbuilt", missing: "Not connected to Chelsea's Qualified stage yet." },
+    { id: "end-dqaband", lane: "dq", label: "Abandoned", sub: "No downsell call booked after Day 6.", kind: "end", status: "waiting", note: "Built. A test lead confirms it on Oct 3." },
+    { id: "end-cancel", lane: "ds", label: "Call cancelled", sub: "The lead never confirmed.", kind: "end", status: "missing", missing: "Waiting on your decision: keep the auto-cancel, or have the setter call to confirm instead." },
+    { id: "end-fulfil", lane: "ds", label: "Book Writing Fulfillment", sub: "Onboarding through publishing", kind: "end", status: "notbuilt", missing: "The hand-off after a sale isn't built yet." }
+  ],
+  edges: [
+    ["start", "setter:Nominated", "nominee"], ["start", "setter:Apollo", "Apollo import"],
+    ["setter:Nominated", "g-cadence", "no answer"], ["setter:Apollo", "g-cadence", "no answer"],
+    ["setter:Nominated", "setter:Responded", "answers"],
+    ["g-cadence", "setter:Responded", "answers"], ["g-cadence", "setter:Scheduled", "books"], ["g-cadence", "end-aband", "no reply in 10 days"],
+    ["setter:Responded", "setter:Scheduled", "books interview"], ["setter:Responded", "end-aband", "no reply in 10 days"], ["setter:Responded", "end-lost", "says no"],
+    ["setter:Scheduled", "disc:Scheduled", "to Chelsea"],
+    ["disc:Scheduled", "disc:No Show", "no-show"], ["disc:No Show", "g-noshow", "back to setter"],
+    ["g-noshow", "setter:Scheduled", "rebooks"], ["g-noshow", "end-aband", "doesn't rebook"],
+    ["disc:Scheduled", "disc:Showed Up/Qualified", "qualified"], ["disc:Scheduled", "disc:Showed Up/Disqualified", "disqualified"],
+    ["disc:Showed Up/Qualified", "setter:Showed Up/Won", "setter credited"], ["disc:Showed Up/Disqualified", "setter:Showed Up/Won", ""],
+    ["disc:Showed Up/Qualified", "disc:Scheduled Sales Call", "books sales call"], ["disc:Scheduled Sales Call", "disc:Sales Call Confirmed", "confirms"], ["disc:Sales Call Confirmed", "end-closer", ""],
+    ["disc:Showed Up/Disqualified", "dq:Disqualified - Review", ""],
+    ["dq:Disqualified - Review", "g-dq", "2 days later"], ["g-dq", "end-dqaband", "never books"], ["g-dq", "dq:Scheduled Downsell", "books downsell call"],
+    ["dq:Scheduled Downsell", "ds:Scheduled Downsell", "to sales rep"],
+    ["ds:Scheduled Downsell", "ds:Downsell Call Confirmed", "confirms"],
+    ["ds:Downsell Call Confirmed", "ds:No Show", "no-show"], ["ds:No Show", "dq:No Show/Needs Rebook", "back to setter"], ["dq:No Show/Needs Rebook", "dq:Scheduled Downsell", "rebooks"],
+    ["ds:Downsell Call Confirmed", "ds:Showed Up/Did Not Close", "no sale"], ["ds:Downsell Call Confirmed", "ds:Closed", "buys"],
+    ["ds:Showed Up/Did Not Close", "dq:Showed Up/Won", "setter credited"], ["ds:Closed", "dq:Showed Up/Won", ""],
+    ["ds:Closed", "end-fulfil", "hand-off"], ["ds:Scheduled Downsell", "end-cancel", "never confirms"]
+  ],
+  // Linear journeys. Each step: { s: stageRef | [stageRefs] (a run of days), l: what happens to get here }.
+  paths: [
+    { title: "Nominee who never answers", nominee: true, desc: "The setter calls through all 10 days and never reaches them.",
+      steps: [{ s: "start" }, { s: "setter:Nominated", l: "nominated" }, { s: ["setter:Day 1 -","setter:Day 2 -","setter:Day 3 -","setter:Day 4 -","setter:Day 5 -","setter:Day 6 -","setter:Day 7 -","setter:Day 8 -","setter:Day 9 -","setter:Day 10 -"], t: "Day 1 to Day 10", l: "no answer" }, { s: "end-aband", l: "still no answer" }] },
+    { title: "Apollo lead who never answers", desc: "Today this closes after Day 5. You decided on all 10 days, which is still open.",
+      steps: [{ s: "start" }, { s: "setter:Apollo", l: "imported" }, { s: ["setter:Day 1 -","setter:Day 2 -","setter:Day 3 -","setter:Day 4 -","setter:Day 5 -"], t: "Day 1 to Day 5", l: "no answer" }, { s: "end-aband", l: "closed after Day 5" }] },
+    { title: "Nominee who answers on Day 10", nominee: true, desc: "The lead answers on the last day and books an interview.",
+      steps: [{ s: "start" }, { s: "setter:Nominated", l: "nominated" }, { s: ["setter:Day 1 -","setter:Day 2 -","setter:Day 3 -","setter:Day 4 -","setter:Day 5 -","setter:Day 6 -","setter:Day 7 -","setter:Day 8 -","setter:Day 9 -","setter:Day 10 -"], t: "Day 1 to Day 10", l: "no answer" }, { s: "setter:Responded", l: "answers on Day 10" }, { s: "setter:Scheduled", l: "books the interview" }, { s: "disc:Scheduled", l: "Chelsea gets the card" }] },
+    { title: "Apollo lead who answers on Day 4", desc: "The lead answers partway through the cadence and books.",
+      steps: [{ s: "start" }, { s: "setter:Apollo", l: "imported" }, { s: ["setter:Day 1 -","setter:Day 2 -","setter:Day 3 -","setter:Day 4 -"], t: "Day 1 to Day 4", l: "no answer" }, { s: "setter:Responded", l: "answers on Day 4" }, { s: "setter:Scheduled", l: "books the interview" }, { s: "disc:Scheduled", l: "Chelsea gets the card" }] },
+    { title: "Answers, but never books", desc: "The lead talks to the setter, then goes quiet.",
+      steps: [{ s: "start" }, { s: "setter:Nominated", l: "nominated" }, { s: "setter:Responded", l: "answers" }, { s: "end-aband", l: "no reply in 10 days" }] },
+    { title: "Answers, then says no", desc: "The lead isn't interested, and the setter closes the card.",
+      steps: [{ s: "start" }, { s: "setter:Nominated", l: "nominated" }, { s: "setter:Responded", l: "answers" }, { s: "end-lost", l: "says no" }] },
+    { title: "Books, then misses the interview", desc: "The setter follows up for 3 days, but the lead never rebooks.",
+      steps: [{ s: "setter:Scheduled" }, { s: "disc:Scheduled", l: "Chelsea gets the card" }, { s: "disc:No Show", l: "misses the interview" }, { s: ["setter:No Show - Day 1","setter:No Show - Day 2","setter:No Show - Day 3"], t: "No-show Day 1 to Day 3", l: "back to the setter" }, { s: "end-aband", l: "doesn't rebook" }] },
+    { title: "Misses the interview, then rebooks and shows", desc: "The setter gets them back on the calendar, and Chelsea qualifies them.",
+      steps: [{ s: "setter:Scheduled" }, { s: "disc:Scheduled", l: "Chelsea gets the card" }, { s: "disc:No Show", l: "misses the interview" }, { s: "setter:No Show - Day 1", l: "back to the setter" }, { s: "setter:Scheduled", l: "rebooks" }, { s: "disc:Showed Up/Qualified", l: "shows up, qualified" }, { s: "setter:Showed Up/Won", l: "setter credited" }] },
+    { title: "Shows up and qualifies", desc: "Chelsea qualifies the lead and books the closer's sales call.",
+      steps: [{ s: "setter:Scheduled" }, { s: "disc:Scheduled", l: "Chelsea gets the card" }, { s: "disc:Showed Up/Qualified", l: "shows up, qualified" }, { s: "setter:Showed Up/Won", l: "setter credited" }, { s: "disc:Scheduled Sales Call", l: "books the sales call" }, { s: "end-closer", l: "closer takes over" }] },
+    { title: "Disqualified, never books the downsell", desc: "The setter works the Day 1-6 follow-up, but the lead never books.",
+      steps: [{ s: "disc:Scheduled" }, { s: "disc:Showed Up/Disqualified", l: "shows up, disqualified" }, { s: "dq:Disqualified - Review", l: "2-day wait" }, { s: ["dq:Day 1 -","dq:Day 2 -","dq:Day 3 -","dq:Day 4 -","dq:Day 5 -","dq:Day 6 -"], t: "Day 1 to Day 6", l: "setter follows up" }, { s: "end-dqaband", l: "no booking" }] },
+    { title: "Disqualified, then buys the downsell", desc: "The lead books on Day 2 and buys on the call.",
+      steps: [{ s: "disc:Showed Up/Disqualified" }, { s: "dq:Disqualified - Review", l: "2-day wait" }, { s: ["dq:Day 1 -","dq:Day 2 -"], t: "Day 1 to Day 2", l: "setter follows up" }, { s: "dq:Scheduled Downsell", l: "books on Day 2" }, { s: "ds:Scheduled Downsell", l: "sales rep gets the card" }, { s: "ds:Downsell Call Confirmed", l: "confirms" }, { s: "ds:Closed", l: "buys" }, { s: "dq:Showed Up/Won", l: "setter credited" }, { s: "end-fulfil", l: "hand-off" }] },
+    { title: "Misses the downsell call, then rebooks", desc: "The setter rebooks the lead, who shows up but doesn't buy.",
+      steps: [{ s: "ds:Downsell Call Confirmed" }, { s: "ds:No Show", l: "misses the call" }, { s: "dq:No Show/Needs Rebook", l: "back to the setter" }, { s: "dq:Scheduled Downsell", l: "rebooks" }, { s: "ds:Scheduled Downsell", l: "sales rep gets the card" }, { s: "ds:Downsell Call Confirmed", l: "confirms" }, { s: "ds:Showed Up/Did Not Close", l: "shows, doesn't buy" }, { s: "dq:Showed Up/Won", l: "setter credited" }] },
+    { title: "Books the downsell, never confirms", desc: "The lead ignores the confirm email, and the call is cancelled.",
+      steps: [{ s: "dq:Scheduled Downsell" }, { s: "ds:Scheduled Downsell", l: "sales rep gets the card" }, { s: "end-cancel", l: "no confirm within 6 hours" }] }
+  ]
+};
+// Short "what's missing" labels shown on the boxes. First match wins; tested against the full missing text.
+window.SHORT = [
+  [/GHL task/, "Turn off the old Apollo task workflow"],
+  [/Apollo leads get all 10 days/, "Decide Day 5 vs Day 10 for Apollo"],
+  [/finds the setter's card by exact name/, ["Fix the name matching", "Linq, for texts"]],
+  [/confirm within 6 hours|auto-cancel/, "Your call on the auto-cancel"],
+  [/1,023 older Apollo cards/, "Dots on 1,023 older Apollo cards"],
+  [/wording isn't written/, ["Nominator text wording", "Linq, for texts"]],
+  [/Uninterested/, "The \"Uninterested\" lost reason"],
+  [/playbook doesn't cover/, "Kurtis to add this to the playbook"],
+  [/connect her Zoom/, "Chelsea's own Zoom and hours"],
+  [/closer/i, "The closer's process"],
+  [/survey disqualifies/, "Close the setter card on this path"],
+  [/downsell calendar has no Zoom|until Kurtis names the rep/, "A sales rep and Zoom link"],
+  [/follow-up sequence after a no-sale/, "Follow-up after a no-sale"],
+  [/Fulfillment|hand-off after a sale/i, "The hand-off to Fulfillment"],
+  [/Linq/, "Linq, for texts"]
+];
+
+</script>
+<script>
+(async () => {
+const M = window.MAP, F = window.FLOW, $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const dots = s => esc(s).replace(/🟢/g,'<i class="dot g"></i>').replace(/🔴/g,'<i class="dot r"></i>');
+const ST = { ok:["Working","#3f7d58"], waiting:["Built, being confirmed","#4f7394"], linq:["Built, needs Linq","#c1741f"], missing:["Incomplete","#b83a2e"], notbuilt:["Not built yet","#a8a397"] };
+const shortOf = m => { for (const [re, lab] of (window.SHORT||[])) if (re.test(m)) return lab; return String(m).replace(/^[^:]{3,80}: /, "").split(". ")[0].replace(/\.$/, ""); };
+const needs = (list, skip) => [...new Set(list.flatMap(m => [].concat(shortOf(m))))].filter(x => !(skip && skip.test(x)));
+const needsHTML = (list, st, skip) => { const u = needs(list, skip); return u.length ? `<div class="needs ${st==="linq"?"lq":""}"><b>Needs:</b> ${u.map(esc).join(" · ")}</div>` : ""; };
+const ghl = id => `https://app.gohighlevel.com/v2/location/${M.loc}/automation/workflow/${id}`;
+
+// ---- nodes from stages
+const nodes = {}; const pipeByKey = Object.fromEntries(M.pipelines.map(p => [p.key, p]));
+M.pipelines.forEach(p => p.stages.forEach((s, i) => {
+  const id = `${p.key}-${i}`; const missing = [];
+  (s.auto||[]).forEach(k => { const w = M.wf[k]; if (!w.ok) missing.push(`${w.name}: ${w.missing}`); });
+  (s.comms||[]).forEach(c => { if (!c.ok) missing.push(`${c.text}: ${c.missing}`); });
+  (s.issues||[]).forEach(t => missing.push(t)); if (s.notbuilt) missing.push(s.notbuilt);
+  let status = s.notbuilt && !(s.auto||[]).length ? "notbuilt" : !missing.length ? (s.test === "paper" ? "waiting" : "ok") : missing.every(m => /Linq/.test(m) && !/Wording|decision|Kurtis|isn't|not built|conflict/i.test(m)) ? "linq" : "missing";
+  nodes[id] = { id, lane: p.key, stage: s, pipe: p, label: s.name, sub: (s.human||[])[0] ? `${M.roles[s.human[0][0]].label}: ${s.human[0][1]}` : "", status, missing, kind: "stage" };
+}));
+F.extra.forEach(e => nodes[e.id] = { ...e, missing: e.missing ? [e.missing] : [], kind: e.kind });
+const ref = r => { if (nodes[r] || r.startsWith("g-")) return r; const [k, pre] = r.split(":"); const i = pipeByKey[k].stages.findIndex(s => s.name.startsWith(pre)); if (i < 0) throw new Error("bad ref " + r); return `${k}-${i}`; };
+const groups = F.groups.map(g => ({ ...g, kids: pipeByKey[g.pipe].stages.map((s,i)=>[s,i]).filter(([s]) => g.match.test(s.name)).map(([,i]) => `${g.pipe}-${i}`) }));
+const inGroup = {}; groups.forEach(g => g.kids.forEach(k => inGroup[k] = g.id));
+const rank = { missing:4, notbuilt:3, linq:2, waiting:1, ok:0 };
+groups.forEach(g => { const ks = g.kids.map(k => nodes[k]); g.status = ks.reduce((a,n) => rank[n.status] > rank[a] ? n.status : a, "ok"); g.missing = ks.flatMap(n => n.missing.map(m => `${n.label.replace(/ - .*/, "")}: ${m}`)); });
+
+let expanded = false;
+// ---- progress
+const all = Object.values(nodes).filter(n => n.kind === "stage" || n.kind === "end");
+const counts = Object.fromEntries(Object.keys(ST).map(k => [k, all.filter(n => n.status === k).length]));
+const done = counts.ok + counts.waiting + counts.linq;
+$("#ptitle").textContent = `${done} of ${all.length} stages are built`;
+$("#psub").textContent = `${counts.ok} proven working, ${counts.missing} incomplete, ${counts.notbuilt} not built yet`;
+$("#pbar").innerHTML = ["ok","waiting","linq","missing","notbuilt"].map(k => `<i style="width:${counts[k]/all.length*100}%;background:${ST[k][1]}" title="${ST[k][0]}: ${counts[k]}"></i>`).join("");
+$("#keys").innerHTML = ["ok","waiting","linq","missing","notbuilt"].map(k => `<button class="key" data-st="${k}" aria-pressed="false"><s style="background:${ST[k][1]}"></s>${ST[k][0]} <b>${counts[k]}</b></button>`).join("");
+
+// ---- tooltip + drawer content
+const vis = id => nodes[id] || groups.find(g => g.id === id);
+function tipHTML(n){
+  if (n.kids) return `<h5>${esc(n.title)}</h5><div>${n.kids.length} daily stages. Click "Expand day-by-day stages" above to see each one.</div>${n.missing.length?`<div class="lab">What's missing</div>${n.missing.map(m=>`<div class="miss ${/Linq/.test(m)?"lq":""}">${dots(m)}</div>`).join("")}`:`<div class="lab">Status</div><div>${ST[n.status][0]}</div>`}`;
+  const s = n.stage;
+  if (!s) return `<h5>${esc(n.label)}</h5><div>${esc(n.sub)}</div>${n.missing.length?`<div class="lab">What's missing</div>${n.missing.map(m=>`<div class="miss">${esc(m)}</div>`).join("")}`:""}${n.note?`<div class="more">${esc(n.note)}</div>`:""}`;
+  const wf = (s.auto||[]).map(k => M.wf[k]);
+  return `<h5>${esc(s.name)}</h5>${s.dot?`<div>${dots(s.dot)}</div>`:""}
+    ${(s.enters||[]).length?`<div class="lab">Gets here when</div><ul>${s.enters.map(e=>`<li>${esc(e)}</li>`).join("")}</ul>`:""}
+    ${wf.length?`<div class="lab">Automations</div><ul>${wf.map(w=>`<li><b>${esc(w.name)}</b><br><span style="color:#bdb5a6">When: ${esc(w.trigger)}</span></li>`).join("")}</ul>`:""}
+    ${(s.human||[]).length?`<div class="lab">Who moves it forward</div><ul>${s.human.map(([r,t])=>`<li><b>${M.roles[r].label}:</b> ${dots(t)}</li>`).join("")}</ul>`:""}
+    ${(s.comms||[]).length?`<div class="lab">Messages</div><ul>${s.comms.map(c=>`<li>${c.ok?"":"⚠ "}${esc(c.text)} <span style="color:#a79f90">(${c.manual?"sent by hand":"automatic"})</span></li>`).join("")}</ul>`:""}
+    ${n.missing.length?`<div class="lab">What's missing</div>${n.missing.map(m=>`<div class="miss ${/Linq/.test(m)&&n.status==="linq"?"lq":""}">${dots(m)}</div>`).join("")}`:""}
+    <div class="more">Click for more detail and GHL links.</div>`;
+}
+function openDrawer(id){
+  const n = vis(id); let h;
+  if (n.kids) { h = `<div class="eyebrow">${esc(ST[n.status][0])}</div><h3>${esc(n.title)}</h3>` + n.kids.map(k => { const c = nodes[k]; return `<div class="it ${c.status==="missing"?"bad":c.status==="linq"?"lq":""}"><b>${esc(c.label)}</b><small>${dots(c.stage.dot||"")} · ${esc(ST[c.status][0])}</small><small>${dots((c.stage.human||[])[0]?.[1]||"")}</small>${c.missing.map(m=>`<small style="color:#8d3a30">⚠ ${esc(m)}</small>`).join("")}</div>`; }).join(""); }
+  else if (!n.stage) { h = `<div class="eyebrow">${esc(ST[n.status][0])}</div><h3>${esc(n.label)}</h3><p>${esc(n.sub)}</p>${n.missing.map(m=>`<div class="it bad">${esc(m)}</div>`).join("")}${n.note?`<p style="color:var(--muted)">${esc(n.note)}</p>`:""}`; }
+  else { const s = n.stage;
+    h = `<div class="eyebrow">${esc(n.pipe.name)} · ${esc(ST[n.status][0])}</div><h3>${esc(s.name)}</h3>${s.dot?`<div>${dots(s.dot)}</div>`:""}
+    ${n.missing.length?`<div class="sec"><h4>What's missing</h4>${n.missing.map(m=>`<div class="it ${/Linq/.test(m)?"lq":"bad"}">${dots(m)}</div>`).join("")}</div>`:""}
+    ${(s.enters||[]).length?`<div class="sec"><h4>Gets here when</h4>${s.enters.map(e=>`<div class="it">${esc(e)}</div>`).join("")}</div>`:""}
+    <div class="sec"><h4>Automations</h4>${(s.auto||[]).map(k=>{const w=M.wf[k];return `<div class="it ${w.ok?"":"bad"}"><b>${esc(w.name)}</b>${w.status==="draft"?" · Draft":""}<small>When: ${esc(w.trigger)}</small><small>Does: ${dots(w.does)}</small>${w.ok?"":`<small style="color:#8d3a30">⚠ ${esc(w.missing)}</small>`}<a href="${ghl(w.id)}" target="_blank" rel="noopener">Open in GHL ↗</a></div>`;}).join("")||'<div class="it">None</div>'}</div>
+    ${(s.human||[]).length?`<div class="sec"><h4>Who moves it forward</h4>${s.human.map(([r,t])=>`<div class="it"><b>${M.roles[r].label}</b><small>${dots(t)}</small></div>`).join("")}</div>`:""}
+    <div class="sec"><h4>Messages</h4>${(s.comms||[]).map(c=>`<div class="it ${c.ok?"":"lq"}"><b>${esc(c.text)}</b><small>${c.manual?"Sent by hand from a snippet":"Sent automatically by GHL"}${c.test==="pass"?" · delivered in the live test":""}</small>${c.ok?"":`<small style="color:#8d3a30">⚠ ${esc(c.missing)}</small>`}</div>`).join("")||'<div class="it">Nothing sent at this stage</div>'}</div>
+    <div class="sec"><h4>Live test</h4><div class="it">${({pass:"Worked in the live test",fixed:"Broke in the test, then fixed and retested",paper:"Built. A scheduled check will confirm it over the next few days"})[s.test]||"Not exercised yet"}</div></div>`; }
+  $("#dbody").innerHTML = h; document.body.classList.add("open"); window.__openedAt = Date.now();
+}
+const close = () => document.body.classList.remove("open"); $("#scrim").onclick = () => { if (Date.now() - (window.__openedAt||0) > 450) close(); }; $("#x").onclick = close; addEventListener("keydown", e => e.key === "Escape" && close());
+
+// ---- layout with ELK
+const elk = new ELK(); const NS = "http://www.w3.org/2000/svg";
+const W = 256, H = 100, WD = 236, HD = 92;
+const estLabel = t => ({ text: t, width: Math.max(10, t.length * 6.4 + 6), height: 15 });
+function cardHTML(n){
+  const st = n.status; const title = n.kids ? n.title : n.label; const s = n.stage;
+  const L = F.lanes.find(l => l.key === (n.lane)); const own = L ? { label: L.title, color: M.roles[L.role].color } : null;
+  const sub = n.kids ? `${n.kids.length} daily stages` : s ? (s.dot ? s.dot : "") : n.sub;
+  const na = s ? (s.auto||[]).length : 0, nc = s ? (s.comms||[]).length : 0, nm = n.missing.length;
+  return `<div xmlns="http://www.w3.org/1999/xhtml" class="card"><div class="rail"></div><div class="body">${own?`<div class="own" style="color:${own.color}">${esc(own.label)}</div>`:""}<div class="t">${esc(title)}</div>${sub?`<div class="s">${dots(sub)}</div>`:""}
+      ${nm ? needsHTML(n.missing, st) : ""}<div class="row">${nm ? "" : `<span class="pill">${ST[st][0]}</span>`}${na?`<span class="cnt">⚙ ${na} automations</span>`:""}${nc?`<span class="cnt">✉ ${nc} messages</span>`:""}</div></div></div>`;
+}
+// measure each card at its real width so nothing gets cropped
+const measureBox = document.createElement("div"); measureBox.style.cssText = "position:absolute;left:-10000px;top:0;visibility:hidden;"; document.body.appendChild(measureBox);
+function measure(id, w, minH){ const n = vis(id); const d = document.createElement("div"); d.className = `node st-${n.status} kind-${n.kind||"group"}`; d.style.width = w + "px";
+  d.innerHTML = cardHTML(n); d.firstElementChild.style.height = "auto"; measureBox.appendChild(d); const h = Math.ceil(d.firstElementChild.getBoundingClientRect().height) + 4; d.remove(); return Math.max(minH, h); }
+async function draw(){
+  const shown = id => expanded || !inGroup[id];
+  const mapId = id => (!expanded && inGroup[id]) ? inGroup[id] : id;
+  const kids0 = [];
+  Object.values(nodes).filter(n => !inGroup[n.id] || expanded).forEach(n => { const w = inGroup[n.id] ? WD : W; kids0.push({ id: n.id, width: w, height: measure(n.id, w, n.kind==="start" ? 64 : 84) }); });
+  if (!expanded) groups.forEach(g => kids0.push({ id: g.id, width: W, height: measure(g.id, W, 84) }));
+  // order nodes along the lead's journey (BFS over forward edges) so cycle-breaking treats rebooks/back-to-setter as the loops
+  const BACK = /^(rebooks|back to setter)$/;
+  const fwd = {}; F.edges.forEach(([a,b,l]) => { if (BACK.test(l)) return; let s0 = mapId(ref(a)), t0 = mapId(ref(b)); if (expanded) { const gs = groups.find(g => g.id === s0), gt = groups.find(g => g.id === t0); if (gs) s0 = gs.kids[gs.kids.length-1]; if (gt) t0 = gt.kids[0]; } (fwd[s0] ||= []).push(t0); });
+  if (expanded) groups.forEach(g => { (fwd[g.id] ||= []); g.kids.forEach((k,j) => { if (j) (fwd[g.kids[j-1]] ||= []).push(k); }); });
+  const order = []; const q = ["start"]; const seenO = new Set(q);
+  while (q.length) { const x = q.shift(); order.push(x); (fwd[x]||[]).forEach(y => { if (!seenO.has(y)) { seenO.add(y); q.push(y); } }); }
+  window.__order = order.filter(id => kids0.some(k => k.id === id)); const kids = [...kids0].sort((a,b) => (order.indexOf(a.id)+1 || 999) - (order.indexOf(b.id)+1 || 999));
+  const edges = []; const seen = new Set();
+  F.edges.forEach(([a,b,l], i) => { let s = mapId(ref(a)), t = mapId(ref(b)); if (expanded) { const gs = groups.find(g => g.id === s), gt = groups.find(g => g.id === t); if (gs) s = gs.kids[gs.kids.length-1]; if (gt) t = gt.kids[0]; } if (s === t) return; const key = s+">"+t; if (seen.has(key)) return; seen.add(key);
+    edges.push({ id: "e"+i, sources:[s], targets:[t], labels: l ? [estLabel(l)] : [] }); });
+  if (expanded) groups.forEach(g => g.kids.forEach((k,j) => { if (j) edges.push({ id: `c-${k}`, sources:[g.kids[j-1]], targets:[k], labels: [] }); }));
+  const graph = { id: "root", layoutOptions: { "elk.algorithm":"layered", "elk.direction":"DOWN", "elk.edgeRouting":"ORTHOGONAL",
+    "elk.layered.spacing.nodeNodeBetweenLayers":"58", "elk.spacing.nodeNode":"40", "elk.spacing.edgeNode":"18", "elk.spacing.edgeEdge":"12", "elk.spacing.edgeLabel":"4",
+    "elk.layered.nodePlacement.strategy":"NETWORK_SIMPLEX", "elk.layered.considerModelOrder.strategy":"NODES_AND_EDGES", "elk.layered.cycleBreaking.strategy":"MODEL_ORDER", "elk.edgeLabels.placement":"CENTER" },
+    children: kids, edges };
+  const r = await elk.layout(graph);
+  const vp = $("#vp"); vp.innerHTML = ""; const abs = {};
+  const mk = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); (parent||vp).appendChild(e); return e; };
+  const gl = mk("g", {}), ge = mk("g", {}), gn = mk("g", {});
+  (function walk(n, ox, oy){ (n.children||[]).forEach(c => { const x = ox + c.x, y = oy + c.y; abs[c.id] = { x, y, w: c.width, h: c.height };
+    if (c.id.startsWith("lane-")) { const L = F.lanes.find(l => "lane-"+l.key === c.id); const g = mk("g", { class: "lane" }, gl); mk("rect", { x, y, width: c.width, height: c.height, rx: 22 }, g);
+      const t = mk("text", { x: x + 24, y: y + 32 }, g); t.textContent = L.title; }
+    else if (c.children) { const g = mk("g", { class: "grp" }, gl); mk("rect", { x, y, width: c.width, height: c.height, rx: 16 }, g); const t = mk("text", { x: x + 16, y: y + 22 }, g); t.textContent = groups.find(q => q.id === c.id).title; }
+    walk(c, x, y); }); })(r, 0, 0);
+  // edges (INCLUDE_CHILDREN: coordinates relative to the edge's container; root here)
+  const edgeEls = [];
+  (function walkE(n, ox, oy){ (n.edges||[]).forEach(e => { const g = mk("g", { class: "edge" }, ge); g.dataset.s = e.sources[0]; g.dataset.t = e.targets[0];
+      const tgt = vis(e.targets[0]); if (tgt && tgt.status === "notbuilt") g.classList.add("nb");
+      (e.sections||[]).forEach(sc => { const pts = [sc.startPoint, ...(sc.bendPoints||[]), sc.endPoint].map(p => [p.x + ox, p.y + oy]);
+        let d = `M${pts[0][0]},${pts[0][1]}`; for (let i = 1; i < pts.length; i++) { const [x,y] = pts[i]; if (i < pts.length - 1) { const [px,py] = pts[i-1], [nx,ny] = pts[i+1]; const r0 = 8;
+          const dx1 = Math.sign(x-px), dy1 = Math.sign(y-py), dx2 = Math.sign(nx-x), dy2 = Math.sign(ny-y); d += ` L${x-dx1*r0},${y-dy1*r0} Q${x},${y} ${x+dx2*r0},${y+dy2*r0}`; } else d += ` L${x},${y}`; }
+        mk("path", { d, "marker-end": "url(#ar)" }, g); });
+      (e.labels||[]).forEach(l => { const t = mk("text", { x: l.x + ox + 3, y: l.y + oy + 12 }, g); t.textContent = l.text; });
+      edgeEls.push(g); });
+    (n.children||[]).forEach(c => walkE(c, ox + (c.x||0), oy + (c.y||0))); })(r, 0, 0);
+  // nodes
+  Object.entries(abs).forEach(([id, b]) => { if (id.startsWith("lane-")) return; const n = vis(id); if (!n || (n.kids && expanded)) return;
+    const st = n.status, kind = n.kind || "group";
+    const fo = mk("foreignObject", { x: b.x, y: b.y, width: b.w, height: b.h, class: `node st-${st} kind-${kind}` }, gn); fo.dataset.id = id; fo.dataset.st = st;
+    fo.innerHTML = cardHTML(n);
+  });
+  window.__bbox = { w: r.width, h: r.height }; window.__abs = abs; window.__edges = edgeEls;
+}
+
+// ---- pan / zoom
+let T = { x: 0, y: 0, k: 1 }; const svg = $("#svg"), vpEl = () => $("#vp");
+const apply = () => vpEl().setAttribute("transform", `translate(${T.x},${T.y}) scale(${T.k})`);
+function fit(){ const b = window.__bbox, R = $("#stage").getBoundingClientRect(); const k = Math.max(Math.min(R.width / (b.w + 60), R.height / (b.h + 60)), Math.min(R.width / (b.w + 60), 0.85));
+  T = { k, x: (R.width - b.w * k) / 2, y: 24 }; apply(); }
+const zoom = (f, cx, cy) => { const R = $("#stage").getBoundingClientRect(); cx ??= R.width/2; cy ??= R.height/2; const k = Math.max(.15, Math.min(2.5, T.k * f)); T.x = cx - (cx - T.x) * k / T.k; T.y = cy - (cy - T.y) * k / T.k; T.k = k; apply(); };
+$("#stage").addEventListener("wheel", e => { e.preventDefault(); const R = $("#stage").getBoundingClientRect(); zoom(e.deltaY < 0 ? 1.12 : 1/1.12, e.clientX - R.left, e.clientY - R.top); }, { passive: false });
+const small = () => innerWidth <= 700;
+function centerOn(id, k){ const b = (window.__abs||{})[id]; if (!b) return; const R = $("#stage").getBoundingClientRect(); k = k || (small() ? 0.7 : Math.max(T.k, 0.9));
+  T = { k, x: R.width/2 - (b.x + b.w/2) * k, y: Math.min(R.height/2, 140) - (b.y + b.h/2) * k }; apply();
+  const el = document.querySelector(`.node[data-id="${id}"]`); if (el) { el.classList.remove("sel"); void el.getBoundingClientRect(); el.classList.add("sel"); setTimeout(() => el.classList.remove("sel"), 1800); } }
+function home(){ if (small()) centerOn("start", 0.62); else fit(); }
+// pointers: 1 finger/mouse = pan, 2 fingers = pinch zoom, tap on a box = details
+const P = new Map(); let drag = null, moved = false, pinch = null;
+const st = $("#stage");
+st.addEventListener("pointerdown", e => { if (e.target.closest(".fab")) return; st.setPointerCapture?.(e.pointerId); P.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  if (P.size === 1) { drag = { x: e.clientX, y: e.clientY, tx: T.x, ty: T.y }; moved = false; st.classList.add("drag"); }
+  if (P.size === 2) { const [p1, p2] = [...P.values()]; const R = st.getBoundingClientRect(); pinch = { d: Math.hypot(p1.x-p2.x, p1.y-p2.y), k: T.k, cx: (p1.x+p2.x)/2 - R.left, cy: (p1.y+p2.y)/2 - R.top, tx: T.x, ty: T.y }; moved = true; } });
+st.addEventListener("pointermove", e => { if (!P.has(e.pointerId)) return; P.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  if (P.size >= 2 && pinch) { const [p1, p2] = [...P.values()]; const R = st.getBoundingClientRect(); const d = Math.hypot(p1.x-p2.x, p1.y-p2.y);
+    const k = Math.max(.15, Math.min(2.5, pinch.k * d / pinch.d)); const cx = (p1.x+p2.x)/2 - R.left, cy = (p1.y+p2.y)/2 - R.top;
+    T.k = k; T.x = cx - (pinch.cx - pinch.tx) * k / pinch.k; T.y = cy - (pinch.cy - pinch.ty) * k / pinch.k; apply(); return; }
+  if (!drag) return; const dx = e.clientX - drag.x, dy = e.clientY - drag.y; if (Math.abs(dx) + Math.abs(dy) > 6) moved = true; T.x = drag.tx + dx; T.y = drag.ty + dy; apply(); });
+const up = e => { if (!P.has(e.pointerId)) return; P.delete(e.pointerId);
+  if (P.size === 0) { if (drag && !moved) { const el = document.elementFromPoint(e.clientX, e.clientY); const nd = el && el.closest(".node"); if (nd) openDrawer(nd.dataset.id); } drag = null; pinch = null; st.classList.remove("drag"); }
+  else if (P.size === 1) { const [p] = [...P.values()]; drag = { x: p.x, y: p.y, tx: T.x, ty: T.y }; pinch = null; } };
+st.addEventListener("pointerup", up); st.addEventListener("pointercancel", up);
+$("#fit").onclick = fit; $("#zin").onclick = () => zoom(1.2); $("#zout").onclick = () => zoom(1/1.2);
+$("#fzin").onclick = () => zoom(1.25); $("#fzout").onclick = () => zoom(1/1.25); $("#ffit").onclick = fit; $("#fstart").onclick = () => centerOn("start", small() ? 0.62 : 0.9);
+function fillJump(){ const sel = $("#jump"); const order = window.__order || []; const opts = order.map(id => vis(id)).filter(Boolean).map(n => `<option value="${n.id}">${esc(n.kids ? n.title : n.label)}</option>`);
+  sel.innerHTML = `<option value="">Jump to a stage…</option>` + opts.join(""); }
+$("#jump").onchange = e => { if (e.target.value) { centerOn(e.target.value); e.target.value = ""; } };
+$("#grp").onclick = async () => { expanded = !expanded; $("#grp").textContent = expanded ? "Collapse day-by-day stages" : "Expand day-by-day stages"; await draw(); fillJump(); home(); applyFilter(); };
+
+// ---- hover: tooltip + highlight connected edges
+const tip = $("#tip");
+const canHover = matchMedia("(hover: hover)").matches;
+$("#stage").addEventListener("mouseover", e => { if (!canHover) return; const nd = e.target.closest(".node"); if (!nd || drag) return; tip.innerHTML = tipHTML(vis(nd.dataset.id)); tip.classList.add("on");
+  (window.__edges||[]).forEach(g => { const on = g.dataset.s === nd.dataset.id || g.dataset.t === nd.dataset.id; g.classList.toggle("hl", on); g.querySelectorAll("path").forEach(p => p.setAttribute("marker-end", on ? "url(#arh)" : "url(#ar)")); }); });
+$("#stage").addEventListener("mouseout", e => { const nd = e.target.closest(".node"); if (nd && !e.relatedTarget?.closest?.(".node")) { tip.classList.remove("on"); (window.__edges||[]).forEach(g => { g.classList.remove("hl"); g.querySelectorAll("path").forEach(p => p.setAttribute("marker-end","url(#ar)")); }); } });
+addEventListener("mousemove", e => { if (!tip.classList.contains("on")) return; const w = tip.offsetWidth, h = tip.offsetHeight; let x = e.clientX + 16, y = e.clientY + 16;
+  if (x + w > innerWidth - 12) x = e.clientX - w - 16; if (y + h > innerHeight - 12) y = Math.max(12, innerHeight - h - 12); tip.style.left = x + "px"; tip.style.top = y + "px"; });
+
+// ---- status spotlight
+let filt = null;
+function applyFilter(){ document.querySelectorAll(".node").forEach(n => n.classList.toggle("dim", !!filt && n.dataset.st !== filt));
+  document.querySelectorAll(".key").forEach(k => k.setAttribute("aria-pressed", k.dataset.st === filt)); }
+$("#keys").addEventListener("click", e => { const k = e.target.closest(".key"); if (!k) return; filt = filt === k.dataset.st ? null : k.dataset.st; applyFilter(); });
+
+// ---- bottom panels
+const missAll = Object.values(nodes).filter(n => ["missing","linq","notbuilt"].includes(n.status));
+$("#misslist").innerHTML = ["missing","notbuilt","linq"].flatMap(st => missAll.filter(n => n.status === st).map(n => `<div class="miss-row" data-id="${n.id}"><s style="background:${ST[st][1]}"></s><div><b>${esc(n.label)}</b><br>${n.missing.map(m => esc(m)).join("<br>")}</div></div>`)).join("");
+$("#misslist").addEventListener("click", e => { const r = e.target.closest(".miss-row"); if (r) openDrawer(r.dataset.id); });
+$("#decisions").innerHTML = M.decisions.map(d => `<div class="dec"><span class="who ${d.who==="Nathan"?"n":"k"}">${d.who}</span><div>${dots(d.q)}</div></div>`).join("");
+$("#foot").textContent = `Built by Mars for Modern Mail Pros · Verified against the live GHL account and a live end-to-end test on ${M.verified}`;
+
+// ---- linear lead paths
+const rankP = { missing:4, notbuilt:3, linq:2, waiting:1, ok:0 };
+function stepHTML(st, skip){
+  if (Array.isArray(st.s)) { const ids = st.s.map(ref); const ns = ids.map(id => nodes[id]); const worst = ns.reduce((a,n) => rankP[n.status] > rankP[a] ? n.status : a, "ok");
+    const L = F.lanes.find(l => l.key === ns[0].lane); const miss = ns.reduce((a,n) => a + n.missing.length, 0);
+    return `<div class="step run st-${worst}" data-run="1"><div class="card"><div class="rail"></div><div class="body">${L?`<div class="own" style="color:${M.roles[L.role].color}">${esc(L.title)}</div>`:""}<div class="t">${esc(st.t)}</div><div class="s">One stage per day. Click a day for its details.</div>
+      <div class="chips">${ns.map((n,i) => `<span class="chip node st-${n.status}" data-id="${n.id}" data-st="${n.status}">${(n.label.match(/Day (\d+)/)||[,i+1])[1]}</span>`).join("")}</div>
+      ${needs(ns.flatMap(n => n.missing), skip).length ? needsHTML(ns.flatMap(n => n.missing), worst, skip) : `<div class="row"><span class="pill">${ST[worst][0]}</span></div>`}</div></div></div>`; }
+  const id = ref(st.s), n = vis(id);
+  return `<div class="step node st-${n.status} kind-${n.kind||"stage"}" data-id="${id}" data-st="${n.status}">${cardHTML(n)}</div>`;
+}
+function renderPaths(){
+  $("#paths").innerHTML = F.paths.map(p => {
+    const ids = p.steps.flatMap(st => Array.isArray(st.s) ? st.s.map(ref) : [ref(st.s)]); const ns = ids.map(vis);
+    const worst = ns.reduce((a,n) => rankP[n.status] > rankP[a] ? n.status : a, "ok"); const good = ns.filter(n => ["ok","waiting","linq"].includes(n.status)).length;
+    const track = p.steps.map((st,i) => (i ? `<div class="arr"><span>${esc(st.l||"")}</span><i></i></div>` : "") + stepHTML(st, p.nominee ? /Apollo/ : null)).join("");
+    return `<article class="path"><div class="phead"><h3>${esc(p.title)}</h3><span class="pcount">${good} of ${ns.length} stages built</span><div class="pdesc">${esc(p.desc)}</div>${(() => { const u = needs(ns.flatMap(n => n.missing), p.nominee ? /Apollo/ : null); return u.length ? `<div class="pneeds"><b>This path needs:</b> ${u.map(esc).join(" · ")}</div>` : `<div class="pneeds ok"><b>Every step on this path works.</b></div>`; })()}</div><div class="ptrack">${track}</div></article>`;
+  }).join("");
+}
+$("#paths").addEventListener("click", e => { const n = e.target.closest(".node"); if (n) { e.stopPropagation(); openDrawer(n.dataset.id); } });
+$("#paths").addEventListener("mouseover", e => { if (!canHover) return; const n = e.target.closest(".node"); if (!n) return; tip.innerHTML = tipHTML(vis(n.dataset.id)); tip.classList.add("on"); });
+$("#paths").addEventListener("mouseout", e => { const n = e.target.closest(".node"); if (n && !e.relatedTarget?.closest?.(".node")) tip.classList.remove("on"); });
+$("#tabs").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; const v = b.dataset.tab;
+  document.querySelectorAll("#tabs button").forEach(x => x.setAttribute("aria-pressed", x === b)); document.body.classList.toggle("v-paths", v === "paths"); document.body.classList.toggle("v-map", v === "map");
+  tip.classList.remove("on"); if (v === "map") home(); });
+renderPaths();
+await document.fonts.ready; await draw(); fillJump(); home();
+let lastW = innerWidth; addEventListener("resize", () => { if (Math.abs(innerWidth - lastW) > 40) { lastW = innerWidth; home(); } });
+})();
+</script>
+</body>
+</html>
