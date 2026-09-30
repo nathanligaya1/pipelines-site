@@ -148,8 +148,8 @@ function popCompare(s){
 function maskReveal(s){
   s.innerHTML = `<div style="position:absolute;left:6%;bottom:14%;white-space:nowrap;font-weight:800;line-height:1;color:#fff;text-shadow:0 .5cqw 2cqw rgba(0,0,0,.5)">
     <div style="font-size:5.5cqw;margin-bottom:1cqw"><span class="mask"><span>In real estate deals</span></span></div>
-    <span class="mask" style="font-size:19cqw;letter-spacing:-.03em"><span>$200M</span></span>
-    <span class="mask red" style="font-size:9cqw;margin-left:2cqw;white-space:nowrap;text-shadow:none!important"><span style="text-shadow:0 0 3cqw rgba(255,42,42,.5)">closed.</span></span>
+    <span class="mask" style="font-size:16cqw;letter-spacing:-.03em"><span>$200M</span></span>
+    <span class="mask red" style="font-size:8cqw;margin-left:2cqw;white-space:nowrap;text-shadow:none!important"><span style="text-shadow:0 0 3cqw rgba(255,42,42,.5)">closed.</span></span>
   </div>`;
   s.querySelectorAll(".mask>span").forEach((m,i)=> m.animate(
     [{transform:"translateY(110%)"},{transform:"translateY(0)"}],
