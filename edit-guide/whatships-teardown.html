@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>What Ships teardown: 22 motion graphics effects</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0c0c0e;--card:#17171b;--card2:#1f1f25;--line:#2a2a31;--text:#f3f3f5;--muted:#a3a3ad;--red:#FF2A2A;--red-soft:rgba(255,42,42,.14);--radius:18px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth;scroll-padding-top:74px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Plus Jakarta Sans",system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.5;-webkit-text-size-adjust:100%;padding-bottom:env(safe-area-inset-bottom)}
+a{color:inherit}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+header.top{padding:24px 0 6px}
+.back{display:inline-flex;align-items:center;gap:6px;color:var(--muted);text-decoration:none;font-weight:700;font-size:15px;padding:10px 0;min-height:44px}
+.eyebrow{color:var(--red);font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:13px}
+h1{font-size:30px;line-height:1.1;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+p.lead{color:var(--muted);margin:0 0 10px;font-size:16px}
+p.lead b{color:var(--text)}
+h2{font-size:24px;margin:34px 0 4px;font-weight:800;letter-spacing:-.01em}
+h2 + .sub{color:var(--muted);margin:0 0 14px;font-size:15px}
+nav.chips{position:sticky;top:0;z-index:20;background:rgba(12,12,14,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav.chips .row{display:flex;gap:8px;overflow-x:auto;padding:10px 16px;max-width:760px;margin:0 auto;scrollbar-width:none}
+nav.chips .row::-webkit-scrollbar{display:none}
+nav.chips a{flex:none;text-decoration:none;font-weight:700;font-size:15px;padding:10px 16px;border-radius:999px;background:var(--card2);min-height:44px;display:flex;align-items:center}
+nav.chips a:active{background:var(--red);color:#fff}
+/* jump menu */
+.jump{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:6px 14px 12px;margin:16px 0 4px}
+.jump h3{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:14px 0 6px;font-weight:800}
+.jump ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.jump a{display:flex;align-items:center;min-height:44px;padding:8px 12px;border-radius:12px;background:var(--card2);text-decoration:none;font-weight:700;font-size:14.5px;line-height:1.2}
+.jump a:active{background:var(--red)}
+/* effect cards */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin:0 0 16px}
+.card h3{margin:0;font-size:21px;line-height:1.2;font-weight:800}
+.card .term{color:var(--red);font-weight:800;font-size:13px;letter-spacing:.03em;margin:4px 0 10px}
+.lbl{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:14px 0 6px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.clip{border-radius:12px;overflow:hidden;background:#000;max-width:540px}
+.clip video{display:block;width:100%;height:auto;max-height:70vh;margin:0 auto}
+.credit{font-size:13px;color:var(--muted);margin:6px 0 0}
+.credit a{color:#dcdce2;font-weight:700}
+.facts{margin:12px 0 0;display:grid;gap:8px}
+.facts p{margin:0;font-size:15px;color:#dcdce2}
+.facts b{color:var(--text)}
+.timing{display:inline-block;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:6px 10px;font-size:14px;color:var(--text)}
+.stage{position:relative;aspect-ratio:16/10;background:#050507;border:1px solid var(--line);border-radius:12px;overflow:hidden;container-type:inline-size;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff}
+.replay{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;min-width:130px;padding:10px 18px;margin-top:10px;border:0;border-radius:999px;background:var(--red);color:#fff;font:800 16px "Plus Jakarta Sans",system-ui,sans-serif;cursor:pointer}
+.replay:active{transform:scale(.96)}
+.ask{margin-top:14px;background:var(--red-soft);border:1px solid rgba(255,42,42,.35);border-radius:12px;padding:12px}
+.ask .k{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--red)}
+.ask p{margin:4px 0 0;font-size:16px;font-weight:700;line-height:1.4}
+.note{font-size:14px;color:var(--muted)}
+footer{color:var(--muted);font-size:14px;padding:20px 0 40px}
+/* demo type */
+.big{font-weight:800;font-size:9cqw;line-height:1.05;letter-spacing:-.02em}
+.mid{font-weight:800;font-size:6.5cqw;line-height:1.15}
+.serif{font-family:Georgia,"Times New Roman",serif;font-weight:400}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.red{color:var(--red)}
+.w{display:inline-block;white-space:pre}
+.abs{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="back" href="./">&larr; Edit guide</a>
+  <div class="eyebrow">Teardown</div>
+  <h1>22 motion effects from What Ships</h1>
+  <p class="lead">I went through <b>all 60 motion videos</b> on <a href="https://whatships.com/">whatships.com</a> (a library of startup launch films). I studied the 52 short films frame by frame and spot-checked the 8 long podcasts. These are the best 22 effects.</p>
+  <p class="lead">Each one has 3 parts: <b>the original</b> (a short cut from the real video), <b>our version</b> (live, tap Replay), and <b>how to ask for it</b> in one line. For the basics (pop-in, karaoke captions, lower thirds), see <a href="motion-graphics.html">Motion graphics</a>.</p>
+</header>
+</div>
+<nav class="chips" aria-label="Sections"><div class="row" id="chips"></div></nav>
+<main class="wrap" id="main"></main>
+<div class="wrap"><footer>Clips are short excerpts for study. Every clip links back to its page on whatships.com and the original post on X. Demos use our own text.</footer></div>
+
+<svg width="0" height="0" style="position:absolute"><filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="7"/><feColorMatrix values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9"/></filter></svg>
+
+<script>
+const SECTIONS=[
+ ["text","Text reveals","How words arrive on screen."],
+ ["beat","Beat and rhythm","Timing tricks. The cut itself is the effect."],
+ ["numbers","Numbers","Make a big number feel big."],
+ ["transitions","Transitions","How to get from one shot to the next."],
+ ["shapes","Shapes and logos","Graphics that build a logo or a set of icons."],
+ ["camera","Camera and layout","Moves on screens, cards, and frames."]
+];
+const SRC={
+ "linear-launch-film":["Linear: idea, plan, align, focus, ship","https://x.com/BhaskarVisuals/status/2092251902385807543"],
+ "look-00":["Look 00: an overnight film from Opus 5.5","https://x.com/anabology/status/2103534482930491441"],
+ "not-a-single-prompt":["Not a single prompt has been used","https://x.com/MarkKnd/status/2070577160549724419"],
+ "achx-studio":["AchX Studio: launch videos for next unicorns","https://x.com/laxachx/status/2098063108816372219"],
+ "history-of-video-games":["A history of video games, made in Cursor","https://x.com/prasenx/status/2103851939457093635"],
+ "jerry-portfolio":["Jerry: a growing motion portfolio","https://x.com/Jerrythe2d/status/2104236249855017381"],
+ "pause-1-flash":["Pause 1.0 Flash: edit in one prompt","https://x.com/Truffievfx/status/2103850308850139217"],
+ "cole-leaves-shopify":["Cole: last PR at Shopify","https://x.com/colderoshay/status/2071992845284897109"],
+ "claude-code-remotion":["Claude Code: vibe-animate a demo video in Remotion","https://x.com/TimotejKochjar/status/2092278549679886507"],
+ "minimax-h3-max-motion":["MiniMax H3 MAX: motion study by ilker","https://x.com/ailker/status/2092358931322462349"],
+ "figma-3980":["Figma: Made in Figma 2025 reel","https://x.com/figma/status/2001715747505233980"],
+ "motion-opus-5-5":["Claude Opus 5.5 for launch videos","https://x.com/motion_so/status/2103956233107787982"],
+ "apple-wonderful-tools":["Apple: give people wonderful tools","https://x.com/ilyamiskov/status/2095655279820001767"],
+ "higgsfield-motion-pipeline":["Higgsfield: a pipeline for AI motion","https://x.com/higgsfield_ai/status/2103958391144227149"],
+ "kami-circuit":["KAMI Circuit: VJ visuals written by Opus 5.5","https://x.com/aratamadao/status/2103706285204255186"],
+ "marmarapp-mobile":["Marmarapp: launch film for the new mobile app","https://x.com/tomiwebstr/status/2092175528396493189"],
+ "zingage":["Zingage: showreel 1.0 from Blissful 2026","https://x.com/stevelauda_/status/2101855047412031533"],
+ "runway-responsive-video":["Runway Labs: responsive generative video interfaces","https://x.com/runwayml_labs/status/2102035097436455021"]
+};
+// id, section, name, term, clip, slug, at, looks, timing, use, ask, note
+const FX=[
+["focus-in","text","Words come into focus","Blur-in reveal (focus pull)","focus-in","linear-launch-film","0:00",
+ "\"Introducing\" appears letter by letter out of a soft blur. Then it blurs away and the Linear logo slides out its name.",
+ "About 300ms per letter or word, from blurry to sharp. Ease-out. Letters 60ms apart, words 150ms apart.",
+ "Calm, premium openers. One important line.",
+ "Bring each word in from a blur, one after another, fast and soft (about 0.3 seconds each)."],
+["scramble","text","Hacker text","Text scramble / decode","scramble","look-00","0:00",
+ "The caption starts as random letters and numbers. It locks into \"18 MONTHS TO ESCAPE THE PERMANENT UNDERCLASS\" from left to right.",
+ "About 1 second in total. The random letters change every frame. They lock from left to right.",
+ "Tech, data, or \"here are the real numbers\" moments.",
+ "Make the text scramble like code, then lock into the real words from left to right in about 1 second."],
+["word-swap","text","Slot machine word","Slot roll / word rotator","word-swap","not-a-single-prompt","1:02",
+ "\"can do\" stays still. The word after it rolls up like a slot machine: sign in, company, documents, presentation.",
+ "Each roll takes 200 to 300ms, ease-in-out. Each word holds about 0.5 seconds.",
+ "One sentence that fits many things: asset types, cities, results.",
+ "Keep \"We buy\" still and roll the last word up like a slot machine: apartments, land, hotels, storage."],
+["strike","text","Cross it out, fix it","Strikethrough and replace","strike-replace","pause-1-flash","0:19",
+ "\"You take 20 hours.\" A line goes through \"20 hours\". The line changes to \"Pause takes 20 minutes.\" with the new part in orange italics and a hand-drawn underline.",
+ "Strike line 200ms. Blur swap 200ms. Underline draws in 300ms, ease-out.",
+ "Before and after. Old way and new way. Myth and fact.",
+ "Show \"It took 20 years\", strike through \"20 years\", swap it to \"20 months\" in red, then draw an underline under it."],
+["letter","text","Photo inside a letter","Letter mask swap (image in type)","letter-window","cole-leaves-shopify","0:00",
+ "The \"o\" in \"Cole\" grows into a rounded photo window and pushes the other letters apart. (Clip shown at half speed.)",
+ "The window grows in about 300ms with a small overshoot, then settles.",
+ "Name reveals. A brand word with a face or a building inside it.",
+ "Turn the U in \"BUILD\" into a small window with the property photo in it, then close it back into a letter."],
+["glitch","text","Broken signal","Glitch (RGB split + slice shift)","glitch","kami-circuit","0:14",
+ "The title \"KAMI CIRCUIT\" jitters with red and blue edges and sliced bars that jump sideways. Then it snaps to a new symbol.",
+ "Short bursts of 100 to 200ms, on the beat (about every 400ms).",
+ "Tech or edgy energy, a hard beat drop, a \"system break\" moment. Use it rarely.",
+ "Hit the title with a quick glitch on the beat: color split and sliced jitter, 2 or 3 short bursts."],
+["smash","beat","Words slam on the beat","Kinetic smash cuts (one word per beat)","smash-words","achx-studio","0:00",
+ "Each word cuts on (\"Some\", \"products\", \"launch\") over fast close-up shots. One word per music cut. The key word is yellow.",
+ "No animation at all. A new word every 300 to 400ms, locked to the cut.",
+ "Hooks and trailers with strong music.",
+ "Cut the words on one at a time, exactly on the beat, no animation, key word in red."],
+["locked","beat","Same words, new picture","Locked caption over a flash-cut montage","locked-caption","history-of-video-games","1:16",
+ "\"WE PLAYED.\" stays in the center while the game footage behind it changes every half second. Then \"WE LOST.\", then \"WE WON.\"",
+ "Background cuts about every 500ms. The caption changes on the beat.",
+ "A montage of many clips (deals, properties, events) under one message.",
+ "Hold the caption dead center and flash-cut 5 or 6 property clips behind it, one every half second."],
+["ramp","beat","Cuts that speed up","Accelerating montage (cut ramp)","speed-ramp-cuts","figma-3980","0:30",
+ "The posts cut faster and faster, from about 0.3 seconds down to 2 or 3 frames, until it flickers. Then it lands on one clean frame.",
+ "Cut length goes from 300ms down to 80ms over about 3 seconds, then a hold.",
+ "Build tension before a reveal. \"And many more.\"",
+ "Make the cuts speed up until they flicker, then stop hard on the final shot."],
+["match","beat","Same spot, new thing","Match cut (graphic match)","match-cut","figma-3980","0:03",
+ "Every post is lined up so \"Made in @figma\" stays in the exact same place while the rest of the post changes.",
+ "Each post holds 500 to 700ms. The change is a hard cut or a 100 to 150ms smear.",
+ "Many examples of one thing (testimonials, closed deals) that must feel like one idea.",
+ "Line up every deal card so the price sits in the exact same spot, then cut between them."],
+["count","numbers","Numbers race, then slow down","Count-up with ease-out + highlight","count-up","claude-code-remotion","0:23",
+ "\"a database of 300M+ profiles\" counts 41M, 203M, 276M, 298M, 300M. Big jumps first, then it crawls. Then \"300M+\" gets a highlight.",
+ "About 1.2 seconds with a strong ease-out. The highlight wipes in after the number lands.",
+ "Any big number: money raised, units, investors.",
+ "Count up to $200 million fast, slow down at the end, then swipe a highlight behind it."],
+["flap","numbers","Airport board numbers","Split-flap / flip-clock digits","split-flap","look-00","1:17",
+ "Big orange tiles flip through digits (\"40\" to \"18\") and lock. Then the film cuts to \"LOCK\".",
+ "Each flip is about 100ms. About 0.7 seconds of flipping, then the tile locks.",
+ "Dates, countdowns, years, \"18 months\".",
+ "Show \"18 months\" as flip-clock tiles that flip through numbers and lock."],
+["zoom","transitions","Fly into the letter","Zoom-through transition","zoom-through","minimax-h3-max-motion","0:00",
+ "The camera pushes into the \"8\" of \"1984\" and through its hole into the next scene: a newspaper that says \"the past is rewritten\".",
+ "About 500ms. Strong ease-in (slow start, very fast end) with motion blur.",
+ "Link two scenes. Turn a number into the next idea.",
+ "Zoom through the zero in \"$200M\" into the next clip, speeding up as it goes."],
+["circle","transitions","Circle reveal","Iris / circle wipe","circle-wipe","not-a-single-prompt","0:52",
+ "A dark circle grows over a chat screen. A blue bar shoots out, and the camera pulls back to show the full results chart.",
+ "Circle about 200ms. Bar grows about 800ms, ease-out. Pull-back about 600ms.",
+ "Jump fast from a claim to the proof (a result, a chart).",
+ "Circle-wipe from me talking to the results chart, then grow the top bar."],
+["tear","transitions","Rip the page","Paper tear transition","paper-tear","higgsfield-motion-pipeline","0:04",
+ "The \"I CAN'T\" poster rips apart and shows \"I CAN\" under it. Cut-paper collage style with red scribbles.",
+ "Scribble about 200ms. Tear about 200ms, fast ease-in. The new page settles in 100ms.",
+ "Flip a belief: can't to can, old to new. Scrappy, handmade style.",
+ "Rip \"I can't\" away like paper to show \"I can\" under it."],
+["click","transitions","The button becomes the next scene","Click-to-morph (UI transition)","click-morph","marmarapp-mobile","0:19",
+ "A cursor clicks \"Log dose\". A green ripple pulses, and the button grows into a card that becomes the next scene.",
+ "Cursor move about 600ms, ease-out. Press squish 100ms. Ripple 400ms. Grow 400ms.",
+ "App or booking demos. Call-to-action endings.",
+ "Show a cursor tap \"Book a call\", ripple, then the button grows to fill the screen with the next shot."],
+["morph","shapes","Blob turns into the logo","Shape morph (gooey morph to logo)","logo-morph","motion-opus-5-5","0:24",
+ "A red pill that says \"build?\" melts into blobs. The blobs form the Replit mark, then the name types out beside it.",
+ "Morph about 500ms, ease-in-out. Name types at about 60ms per letter.",
+ "Logo endings and brand reveals.",
+ "End with the red pill melting into our logo, then type \"Build Wealth\" next to it."],
+["radial","shapes","Pop out in a ring","Radial stagger pop (with overshoot)","radial-pop","apple-wonderful-tools","0:13",
+ "Colored shapes pop out from the center into a ring, each a moment after the last. They overshoot and settle, the ring turns, then they change into the next object.",
+ "Each pop about 400ms with overshoot, 50ms apart. The ring turns 90 degrees in about 1 second.",
+ "Show several features or benefits at once.",
+ "Pop the 6 icons out from the center in a ring, one right after another, with a little bounce."],
+["blueprint","shapes","Drawn outline, then color","Stroke draw-on, then fill (blueprint reveal)","blueprint","zingage","0:02",
+ "The logo appears as dashed orange outlines on a grid, like a blueprint. Then it fills in solid orange.",
+ "Outline letters about 100ms apart. Fill sweep about 500ms.",
+ "Build and architecture themes (good for real estate). Logo reveals.",
+ "Draw the words as a dashed blueprint outline first, then fill them in red."],
+["follow","camera","Camera follows the typing","Push-in + camera follow (UI zoom)","follow-typing","claude-code-remotion","0:07",
+ "The camera zooms into a prompt box and slides along with the text as it types. Then it zooms back out to show the whole box.",
+ "Zoom-in about 200ms, ease-out. Typing about 25 letters per second. Pull-out about 400ms.",
+ "Show a search, a prompt, a form, or a message being written.",
+ "Zoom way in on the text box and follow the words as they type, then pull back out."],
+["carousel","camera","Cards slide past on a curve","Cover-flow carousel","carousel","jerry-portfolio","0:01",
+ "Project cards slide sideways. The side cards bend and blur, the center card is flat, and the label on top changes (\"Homeroom\" to \"Vinci\").",
+ "Each slide about 500ms, ease-in-out. Label swap about 300ms.",
+ "A portfolio of deals, properties, or case studies.",
+ "Slide the deal cards past like a carousel, center card big, and change the label with each one."],
+["aspect","camera","Frame changes shape","Aspect-ratio morph (reframe)","aspect-morph","runway-responsive-video","0:00",
+ "The video frame smoothly changes from wide (16:9) to tall (9:16) while the picture keeps playing.",
+ "About 1.5 seconds, ease-in-out.",
+ "Go from a wide podcast shot to vertical. \"Made for every screen.\"",
+ "Start the shot wide, then smoothly squeeze the frame to vertical."]
+];
+
+/* ---------- helpers ---------- */
+const $=(h)=>{const t=document.createElement('template');t.innerHTML=h.trim();return t.content.firstElementChild};
+const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
+const EO='cubic-bezier(.2,.7,.2,1)', EIO='cubic-bezier(.65,0,.35,1)', EI='cubic-bezier(.7,0,1,1)', POP='cubic-bezier(.34,1.56,.64,1)';
+function A(el,k,o){return el.animate(k,Object.assign({fill:'both'},o))}
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---------- demos: each gets (stage, alive) ---------- */
+const DEMO={
+async "focus-in"(s,ok){
+  const words=["Zero","came","out","of","the","ground."];
+  const t=$(`<div class="big" style="padding:0 6cqw">${words.map((w,i)=>`<span class="w ${i==5?'red':''}">${w}</span>`).join(' ')}</div>`);s.append(t);
+  t.querySelectorAll('.w').forEach((w,i)=>A(w,[{opacity:0,filter:'blur(14px)',transform:'translateY(.25em)'},{opacity:1,filter:'blur(0)',transform:'none'}],{duration:450,delay:150+i*150,easing:EO}));
+},
+async scramble(s,ok){
+  const target="$200 MILLION IN DEALS", G="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&$";
+  const t=$(`<div class="mono" style="font-size:6.2cqw;font-weight:700;letter-spacing:.04em"></div>`);s.append(t);
+  const t0=performance.now(),D=1200;
+  await new Promise(res=>{(function f(now){if(!ok())return res();const p=Math.min(1,(now-t0)/D);const n=Math.floor(Math.max(0,p-.15)/.85*target.length);
+    t.textContent=target.split('').map((c,i)=>i<n||c==' '?c:G[Math.random()*G.length|0]).join('');
+    if(p<1)requestAnimationFrame(f);else{t.textContent=target;res()}})(t0)});
+  if(ok())t.innerHTML=`<span class="red">$200</span> MILLION IN DEALS`;
+},
+async "word-swap"(s,ok){
+  const L=["apartments","land","hotels","storage"];
+  const t=$(`<div class="mid" style="display:flex;gap:.3em;align-items:baseline;width:86%;justify-content:flex-start;padding-left:10cqw"><span>We buy</span><span style="height:1.2em;overflow:hidden;display:inline-block;text-align:left"><span class="list red" style="display:block;line-height:1.2em">${L.map(w=>`<span style="display:block">${w}</span>`).join('')}</span></span></div>`);s.append(t);
+  const list=t.querySelector('.list');
+  for(let i=1;i<L.length;i++){await sleep(700);if(!ok())return;A(list,[{transform:`translateY(${-(i-1)*1.2}em)`},{transform:`translateY(${-i*1.2}em)`}],{duration:280,easing:EIO})}
+},
+async strike(s,ok){
+  const box=$(`<div class="serif" style="font-size:8cqw;position:relative"></div>`);s.append(box);
+  box.innerHTML=`It took <span class="x" style="position:relative;display:inline-block">20 years<i style="position:absolute;left:-2%;top:54%;height:.08em;width:104%;background:#fff;transform-origin:left;transform:scaleX(0)"></i></span>.`;
+  await sleep(500);if(!ok())return;
+  A(box.querySelector('i'),[{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:220,easing:EO});
+  await sleep(650);if(!ok())return;
+  await A(box,[{filter:'blur(0)',opacity:1},{filter:'blur(10px)',opacity:0}],{duration:200}).finished;if(!ok())return;
+  box.innerHTML=`It took <span style="position:relative;display:inline-block;font-style:italic;color:var(--red)">20 months<svg viewBox="0 0 200 20" preserveAspectRatio="none" style="position:absolute;left:0;bottom:-.28em;width:100%;height:.35em;overflow:visible"><path d="M3 12 C 50 4, 120 4, 197 10" stroke="#FF2A2A" stroke-width="5" fill="none" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg></span>.`;
+  await A(box,[{filter:'blur(10px)',opacity:0},{filter:'blur(0)',opacity:1}],{duration:220}).finished;if(!ok())return;
+  A(box.querySelector('path'),[{strokeDashoffset:1},{strokeDashoffset:0}],{duration:350,easing:EO});
+},
+async letter(s,ok){
+  const t=$(`<div class="big" style="display:flex;align-items:center;font-size:15cqw;letter-spacing:.01em"><span>B</span><span class="u" style="display:inline-flex;align-items:center;justify-content:center;position:relative;width:.72em">U<b style="position:absolute;left:50%;top:50%;width:0;height:.82em;transform:translate(-50%,-50%);border-radius:.16em;overflow:hidden;background:linear-gradient(180deg,#ffb36b,#FF2A2A);display:flex;align-items:flex-end;justify-content:center;line-height:1"><span style="font-size:.6em">🏢</span></b></span><span>ILD</span></div>`);s.append(t);
+  const u=t.querySelector('.u'),win=u.querySelector('b');
+  await sleep(600);if(!ok())return;
+  A(u,[{width:'.72em',color:'#fff'},{width:'1.25em',color:'transparent'}],{duration:320,easing:POP});
+  A(win,[{width:'0em'},{width:'1.1em'}],{duration:320,easing:POP});
+  await sleep(1500);if(!ok())return;
+  A(u,[{width:'1.25em',color:'transparent'},{width:'.72em',color:'#fff'}],{duration:280,easing:EIO});
+  A(win,[{width:'1.1em'},{width:'0em'}],{duration:280,easing:EIO});
+},
+async glitch(s,ok){
+  const txt="$200 MILLION";
+  const w=$(`<div class="big" style="position:relative;font-size:12cqw"><span class="b" style="position:relative">${txt}</span><span class="r abs" style="color:#ff2a55;mix-blend-mode:screen;opacity:0">${txt}</span><span class="c abs" style="color:#20e3ff;mix-blend-mode:screen;opacity:0">${txt}</span><span class="s1 abs" style="opacity:0;clip-path:inset(20% 0 55% 0)">${txt}</span><span class="s2 abs" style="opacity:0;clip-path:inset(62% 0 18% 0)">${txt}</span></div>`);s.append(w);
+  const q=c=>w.querySelector(c),rnd=a=>(Math.random()*2-1)*a;
+  for(let b=0;b<3;b++){await sleep(b?260:500);
+    for(let f=0;f<5;f++){if(!ok())return;
+      q('.r').style.cssText+=`;opacity:1;transform:translate(${rnd(.08)}em,${rnd(.03)}em)`;
+      q('.c').style.cssText+=`;opacity:1;transform:translate(${rnd(.08)}em,${rnd(.03)}em)`;
+      q('.s1').style.cssText+=`;opacity:1;transform:translateX(${rnd(.25)}em)`;q('.s2').style.cssText+=`;opacity:1;transform:translateX(${rnd(.25)}em)`;
+      q('.b').style.opacity=Math.random()>.5?1:.4;await sleep(40)}
+    ['.r','.c','.s1','.s2'].forEach(c=>{q(c).style.opacity=0;q(c).style.transform='none'});q('.b').style.opacity=1}
+},
+async smash(s,ok){
+  const W=[["ZERO",""],["came","serif"],["OUT",""],["of the","serif"],["GROUND.","red"]];
+  for(let i=0;i<W.length;i++){if(!ok())return;s.innerHTML='';s.style.background=i%2?'#111116':'#050507';
+    s.append($(`<div class="big ${W[i][1]}" style="font-size:${i==4?17:14}cqw;${W[i][1]=='serif'?'font-style:italic':''}">${W[i][0]}</div>`));await sleep(340)}
+  s.style.background='';
+},
+async locked(s,ok){
+  const bgs=["linear-gradient(135deg,#2b5876,#4e4376)","repeating-linear-gradient(45deg,#3a1c71 0 18px,#d76d77 18px 36px)","radial-gradient(circle at 30% 60%,#f7b733,#fc4a1a)","linear-gradient(0deg,#0f2027,#2c5364)","conic-gradient(from 90deg,#11998e,#38ef7d,#11998e)","repeating-radial-gradient(circle,#222 0 10px,#555 10px 20px)","linear-gradient(90deg,#ee0979,#ff6a00)","linear-gradient(160deg,#1d4350,#a43931)","radial-gradient(circle at 70% 30%,#8e2de2,#4a00e0)","linear-gradient(45deg,#f953c6,#b91d73)","repeating-linear-gradient(0deg,#134e5e 0 14px,#71b280 14px 28px)","linear-gradient(200deg,#c31432,#240b36)"];
+  const bg=$(`<div class="abs"></div>`),cap=$(`<div class="abs big" style="font-size:10cqw;letter-spacing:.06em;text-shadow:0 2px 18px rgba(0,0,0,.7)"></div>`);s.append(bg,cap);
+  const caps=["WE BOUGHT IT.","WE BUILT IT.","WE SOLD IT."];
+  for(let i=0;i<12;i++){if(!ok())return;bg.style.background=bgs[i];cap.textContent=caps[Math.floor(i/4)];await sleep(260)}
+},
+async ramp(s,ok){
+  const col=["#1f3b73","#7a1f3d","#1f7a5a","#7a5a1f","#4b1f7a","#1f6a7a","#7a1f1f","#3d7a1f","#1f2a7a","#7a1f6a","#2a2a2a","#6a7a1f","#1f7a3d","#7a3d1f"];
+  const card=$(`<div class="abs mid" style="flex-direction:column;gap:.2em"></div>`),rd=$(`<div class="mono" style="position:absolute;right:8px;bottom:6px;font-size:12px;color:#aaa"></div>`);s.append(card,rd);
+  let d=400,i=0;while(d>55){if(!ok())return;card.style.background=col[i%col.length];card.innerHTML=`<div style="font-size:.6em;opacity:.7">Deal #${i+1}</div><div>${["Dallas","Austin","Tampa","Phoenix","Denver","Miami","Reno"][i%7]}</div>`;rd.textContent=`cut: ${Math.round(d)}ms`;await sleep(d);d*=.8;i++}
+  if(!ok())return;card.style.background='#050507';card.innerHTML=`<div class="big" style="font-size:11cqw"><span class="red">$200M</span> closed.</div>`;rd.textContent='hold';
+},
+async match(s,ok){
+  const D=[["#e8e3d8","#222","Dallas, TX","212 units"],["#1d2b3a","#fff","Austin, TX","96 units"],["#3b1d1d","#fff","Tampa, FL","88 units"],["#dfe8e1","#222","Phoenix, AZ","140 units"],["#15151a","#fff","Denver, CO","180 units"]];
+  const f=$(`<div class="abs"></div>`);s.append(f);
+  for(let i=0;i<D.length;i++){if(!ok())return;const [b,c,city,u]=D[i];
+    f.style.background=b;f.style.color=c;
+    f.innerHTML=`<div style="position:absolute;left:8%;top:12%;text-align:left;font-weight:700;font-size:4.2cqw;opacity:.7">${city}<br><span style="font-size:.8em">${u}</span></div><div style="position:absolute;right:8%;top:10%;width:${20+i*7}%;height:${22+(i%3)*8}%;border-radius:8px;background:rgba(127,127,127,.3)"></div><div style="position:absolute;left:0;right:0;top:58%;font-weight:800;font-size:8cqw">Built by <span class="red">BWW</span></div>`;
+    if(i)A(f,[{filter:'blur(6px)',transform:'translateX(-3%)'},{filter:'blur(0)',transform:'none'}],{duration:120});
+    await sleep(650)}
+},
+async count(s,ok){
+  const t=$(`<div style="display:flex;flex-direction:column;align-items:center;gap:.4em"><div class="big" style="font-size:15cqw;position:relative;font-variant-numeric:tabular-nums"><i style="position:absolute;left:-.08em;right:-.08em;top:.18em;bottom:.08em;background:var(--red);transform:scaleX(0);transform-origin:left;z-index:0;border-radius:.06em"></i><span style="position:relative">$0M</span></div><div style="font-weight:600;font-size:4.5cqw;color:#bbb">raised from investors</div></div>`);s.append(t);
+  const n=t.querySelector('span'),t0=performance.now(),D=1400;
+  await new Promise(r=>{(function f(now){if(!ok())return r();const p=Math.min(1,(now-t0)/D),e=1-Math.pow(2,-10*p);n.textContent='$'+Math.round(200*(p>=1?1:e))+'M';p<1?requestAnimationFrame(f):r()})(t0)});
+  if(!ok())return;await sleep(150);A(t.querySelector('i'),[{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:320,easing:EO});
+},
+async flap(s,ok){
+  const tgt="18",w=$(`<div style="display:flex;align-items:center;gap:2cqw"><div class="tiles" style="display:flex;gap:1.5cqw;perspective:400px"></div><div class="mid" style="font-size:7cqw">MONTHS</div></div>`);s.append(w);
+  const tiles=[...tgt].map(()=>{const d=$(`<div style="width:15cqw;height:21cqw;background:#e0643c;border-radius:1.2cqw;display:flex;align-items:center;justify-content:center;font:800 15cqw/1 ui-monospace,Menlo,monospace;color:#1a0f0a;position:relative;overflow:hidden"><span>0</span><i style="position:absolute;left:0;right:0;top:50%;height:2px;background:rgba(0,0,0,.35)"></i></div>`);w.querySelector('.tiles').append(d);return d});
+  const t0=performance.now();
+  while(ok()){const el=performance.now()-t0;let done=true;
+    tiles.forEach((d,i)=>{const sp=d.querySelector('span');if(el<700+i*250){done=false;sp.textContent=Math.random()*10|0;A(sp,[{transform:'rotateX(-80deg)'},{transform:'none'}],{duration:90})}else sp.textContent=tgt[i]});
+    if(done)break;await sleep(95)}
+},
+async zoom(s,ok){
+  const t=$(`<div class="big" style="font-size:24cqw;will-change:transform">$20<span class="z">0</span>M</div>`);s.append(t);
+  await sleep(500);if(!ok())return;
+  const z=t.querySelector('.z'),tr=t.getBoundingClientRect(),zr=z.getBoundingClientRect();
+  t.style.transformOrigin=`${zr.left-tr.left+zr.width/2}px ${zr.top-tr.top+zr.height*.52}px`;
+  await A(t,[{transform:'scale(1)',filter:'blur(0)'},{transform:'scale(3)',filter:'blur(0)',offset:.5},{transform:'scale(70)',filter:'blur(4px)'}],{duration:750,easing:EI}).finished;if(!ok())return;
+  t.remove();const n=$(`<div class="mid" style="padding:0 8cqw">and <span class="red">zero</span> came out of the ground.</div>`);s.append(n);
+  A(n,[{transform:'scale(1.4)',opacity:0},{transform:'scale(1)',opacity:1}],{duration:450,easing:EO});
+},
+async circle(s,ok){
+  const a=$(`<div class="abs mid" style="background:#e9e6df;color:#222;font-size:6cqw;padding:0 10cqw">"Can we really raise that much?"</div>`);
+  const b=$(`<div class="abs" style="background:#16161b;clip-path:circle(0% at 50% 50%);-webkit-clip-path:circle(0% at 50% 50%)"><div class="chart" style="width:84%;text-align:left"><div style="font-weight:800;font-size:4.2cqw;color:#aaa;margin-bottom:2.5cqw">Capital raised</div>${[["BWW",92,"$200M"],["Avg fund",38,"$82M"],["Last year",22,"$47M"]].map((r,i)=>`<div style="display:flex;align-items:center;gap:2cqw;margin:1.8cqw 0;font-size:3.8cqw;font-weight:700"><span style="width:18cqw;color:#ccc">${r[0]}</span><span style="flex:1;height:5cqw;background:#26262d;border-radius:3px;position:relative"><i style="position:absolute;inset:0;width:${r[1]}%;background:${i?'#55555f':'var(--red)'};border-radius:3px;transform-origin:left;transform:scaleX(${i?1:0})"></i></span><span style="width:13cqw">${r[2]}</span></div>`).join('')}</div></div>`);
+  s.append(a,b);await sleep(700);if(!ok())return;
+  await A(b,[{clipPath:'circle(0% at 50% 50%)'},{clipPath:'circle(75% at 50% 50%)'}],{duration:320,easing:EI}).finished;if(!ok())return;
+  A(b.querySelector('.chart'),[{transform:'scale(1.35)'},{transform:'scale(1)'}],{duration:900,easing:EIO});
+  A(b.querySelector('i'),[{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:800,easing:EO,delay:150});
+},
+async tear(s,ok){
+  const B=$(`<div class="abs big" style="background:var(--red);color:#fff4e0;font-size:17cqw">I CAN.</div>`);
+  const mk=()=>$(`<div class="abs big" style="background:#f1e9d8;color:#111;font-size:17cqw">I CAN'T.</div>`);
+  const pts=[];for(let y=0;y<=100;y+=10)pts.push([54+(y/10%2?-4:4)+(Math.random()*3-1.5),y]);
+  const L=mk(),R=mk();
+  L.style.clipPath=`polygon(0 0,${pts.map(p=>(p[0]+1.5)+'% '+p[1]+'%').join(',')},0 100%)`;R.style.zIndex=0;L.style.zIndex=1;
+  R.style.clipPath=`polygon(100% 0,${pts.map(p=>p[0]+'% '+p[1]+'%').join(',')},100% 100%)`;
+  const sc=$(`<svg class="abs" viewBox="0 0 160 100" preserveAspectRatio="none" style="pointer-events:none"><path d="M100 40 l18 -6 l-14 12 l20 -4 l-16 14 l18 -3" stroke="#FF2A2A" stroke-width="3" fill="none" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>`);
+  R.append(sc);B.style.opacity=0;s.append(B,L,R);await sleep(600);if(!ok())return;
+  await A(sc.querySelector('path'),[{strokeDashoffset:1},{strokeDashoffset:0}],{duration:250}).finished;if(!ok())return;await sleep(250);B.style.opacity=1;
+  A(L,[{transform:'none'},{transform:'translate(-70%,12%) rotate(-14deg)'}],{duration:380,easing:EI});
+  A(R,[{transform:'none'},{transform:'translate(75%,-6%) rotate(11deg)'}],{duration:380,easing:EI});
+  A(B,[{transform:'scale(1.08)'},{transform:'scale(1)'}],{duration:500,delay:250,easing:EO});
+},
+async click(s,ok){
+  const btn=$(`<div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:44%;height:18%;background:var(--red);border-radius:999px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:4.6cqw;overflow:hidden">Book a call</div>`);
+  const cur=$(`<svg viewBox="0 0 24 24" style="position:absolute;width:7cqw;left:85%;top:88%;filter:drop-shadow(0 2px 3px rgba(0,0,0,.6))"><path d="M4 2l16 10-7 1.5L9.5 21z" fill="#fff" stroke="#000" stroke-width="1.2"/></svg>`);
+  s.style.background='#0e1a14';s.append(btn,cur);await sleep(400);if(!ok())return;
+  await A(cur,[{left:'85%',top:'88%'},{left:'54%',top:'51%'}],{duration:600,easing:EO}).finished;if(!ok())return;
+  A(btn,[{transform:'translate(-50%,-50%) scale(1)'},{transform:'translate(-50%,-50%) scale(.9)'},{transform:'translate(-50%,-50%) scale(1)'}],{duration:180});
+  const rp=$(`<i style="position:absolute;left:54%;top:51%;width:10px;height:10px;margin:-5px;border-radius:50%;border:3px solid rgba(255,120,120,.9)"></i>`);s.append(rp);
+  A(rp,[{transform:'scale(1)',opacity:1},{transform:'scale(22)',opacity:0}],{duration:500,easing:EO});
+  await sleep(300);if(!ok())return;A(cur,[{opacity:1},{opacity:0}],{duration:150});
+  btn.textContent='';
+  await A(btn,[{width:'44%',height:'18%',borderRadius:'999px'},{width:'100%',height:'100%',borderRadius:'0px'}],{duration:450,easing:EIO}).finished;if(!ok())return;
+  const m=$(`<div class="mid" style="position:relative">You're in.<div style="font-size:.6em;font-weight:600;opacity:.85">See you Tuesday at 10.</div></div>`);btn.append(m);
+  A(m,[{opacity:0,transform:'translateY(10px)'},{opacity:1,transform:'none'}],{duration:300,easing:EO});
+},
+async morph(s,ok){
+  s.style.background='#f3f1ec';
+  const g=$(`<div style="position:absolute;inset:0;filter:url(#goo)"></div>`);
+  const p=$(`<div style="position:absolute;left:50%;top:50%;width:30cqw;height:10cqw;margin:-5cqw 0 0 -15cqw;background:var(--red);border-radius:999px"></div>`);
+  const p2=$(`<div style="position:absolute;left:50%;top:50%;width:8cqw;height:8cqw;margin:-4cqw 0 0 -4cqw;background:var(--red);border-radius:50%;opacity:0"></div>`);
+  const lbl=$(`<div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:#fff;font-weight:800;font-size:4.6cqw">build?</div>`);
+  const word=$(`<div style="position:absolute;left:50%;top:50%;transform:translate(-2cqw,-50%);color:#111;font-weight:800;font-size:8cqw;white-space:nowrap"></div>`);
+  g.append(p,p2);s.append(g,lbl,word);await sleep(600);if(!ok())return;
+  A(lbl,[{opacity:1},{opacity:0}],{duration:150});
+  await A(p,[{width:'30cqw',height:'10cqw',marginLeft:'-15cqw',marginTop:'-5cqw'},{width:'11cqw',height:'11cqw',marginLeft:'-5.5cqw',marginTop:'-5.5cqw'}],{duration:320,easing:EIO}).finished;if(!ok())return;
+  p2.style.opacity=1;
+  A(p2,[{transform:'translate(0,0)'},{transform:'translate(7cqw,6cqw)'},{transform:'translate(0,0)'}],{duration:700,easing:EIO});
+  A(p,[{transform:'translate(0,0)'},{transform:'translate(-5cqw,-4cqw)'},{transform:'translate(0,0)'}],{duration:700,easing:EIO});
+  await sleep(720);if(!ok())return;p2.style.opacity=0;g.style.filter='none';
+  await A(p,[{borderRadius:'50%',transform:'rotate(0)'},{borderRadius:'22%',transform:'rotate(45deg)'}],{duration:350,easing:POP}).finished;if(!ok())return;
+  A(p,[{left:'50%'},{left:'28%'}],{duration:350,easing:EIO});await sleep(360);
+  word.style.left='39%';const W="Build Wealth";
+  for(let i=1;i<=W.length;i++){if(!ok())return;word.textContent=W.slice(0,i);await sleep(60)}
+},
+async radial(s,ok){
+  s.style.background='#eeeeef';
+  const ring=$(`<div style="position:absolute;left:50%;top:50%;width:0;height:0"></div>`);s.append(ring);
+  const ic=["🏢","🏠","🏗️","💰","📈","🔑"],R=s.clientHeight*.32;
+  ic.forEach((e,i)=>{const a=i/ic.length*Math.PI*2-Math.PI/2,x=Math.cos(a)*R,y=Math.sin(a)*R;
+    const d=$(`<div style="position:absolute;left:0;top:0;width:13cqw;height:13cqw;margin:-6.5cqw;border-radius:30%;background:#fff;box-shadow:0 4px 14px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;font-size:7cqw">${e}</div>`);ring.append(d);
+    A(d,[{transform:'translate(0,0) scale(0)'},{transform:`translate(${x}px,${y}px) scale(1)`}],{duration:480,delay:300+i*60,easing:POP})});
+  await sleep(1100);if(!ok())return;
+  A(ring,[{transform:'rotate(0)'},{transform:'rotate(90deg)'}],{duration:1000,easing:EIO});
+  ring.querySelectorAll('div').forEach(d=>A(d,[{rotate:'0deg'},{rotate:'-90deg'}],{duration:1000,easing:EIO}));
+},
+async blueprint(s,ok){
+  s.style.background='#fbf7f0';
+  const svg=$(`<svg viewBox="0 0 600 300" style="width:100%;height:100%">
+   <g stroke="#e8b9a8" stroke-width="1.5" stroke-dasharray="6 5" class="grid">${[70,230].map(y=>`<line x1="0" x2="600" y1="${y}" y2="${y}"/>`).join('')}${[90,510].map(x=>`<line y1="0" y2="300" x1="${x}" x2="${x}"/>`).join('')}</g>
+   <text class="o" x="300" y="200" text-anchor="middle" font-family="Plus Jakarta Sans,system-ui,sans-serif" font-weight="800" font-size="150" fill="none" stroke="#FF2A2A" stroke-width="2.5" stroke-dasharray="700" stroke-dashoffset="700">BUILD</text>
+   <text class="f" x="300" y="200" text-anchor="middle" font-family="Plus Jakarta Sans,system-ui,sans-serif" font-weight="800" font-size="150" fill="#FF2A2A" style="clip-path:inset(0 100% 0 0)">BUILD</text></svg>`);
+  s.append(svg);const q=c=>svg.querySelector(c);
+  A(q('.grid'),[{opacity:0},{opacity:1}],{duration:300});
+  await sleep(250);if(!ok())return;
+  await A(q('.o'),[{strokeDashoffset:700},{strokeDashoffset:0}],{duration:1100,easing:EIO}).finished;if(!ok())return;
+  q('.o').setAttribute('stroke-dasharray','7 6');await sleep(350);if(!ok())return;
+  A(q('.f'),[{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)'}],{duration:550,easing:EIO});
+},
+async follow(s,ok){
+  s.style.background='linear-gradient(160deg,#dfe7f5,#b9c9e6)';
+  const world=$(`<div style="position:absolute;left:0;top:0;width:88%;transform-origin:0 0"><div style="background:#fff;border-radius:2.4cqw;box-shadow:0 6px 24px rgba(0,0,0,.15);padding:3cqw 3.5cqw;color:#222;text-align:left;font-weight:600;font-size:3.4cqw;white-space:nowrap;overflow:hidden"><span class="tx"></span><span class="car" style="display:inline-block;width:2px;height:1.1em;background:#222;vertical-align:-.2em"></span><div style="display:flex;justify-content:space-between;margin-top:3cqw;color:#999;font-size:2.6cqw"><span>Deal search</span><span style="width:4.5cqw;height:4.5cqw;border-radius:50%;background:#111;display:inline-block"></span></div></div></div>`);
+  s.append(world);const tx=world.querySelector('.tx'),car=world.querySelector('.car'),S=2.6,W=s.clientWidth,H=s.clientHeight;
+  const L0=W*.06,T0=(H-world.offsetHeight)/2,home=`translate(${L0}px,${T0}px) scale(1)`;
+  world.style.transform=home;
+  const cam=(ms,ease)=>{const cx=car.offsetLeft,cy=car.offsetTop+car.offsetHeight/2;const x=Math.min(W*.06,W*.62-cx*S);
+    world.style.transition=`transform ${ms}ms ${ease}`;world.style.transform=`translate(${x}px,${H/2-cy*S}px) scale(${S})`};
+  await sleep(500);if(!ok())return;cam(280,EO);await sleep(320);
+  const T="Find 50-unit apartment deals in Texas";
+  for(let i=1;i<=T.length;i++){if(!ok())return;tx.textContent=T.slice(0,i);cam(90,'linear');await sleep(45)}
+  await sleep(450);if(!ok())return;world.style.transition=`transform 500ms ${EIO}`;world.style.transform=home;
+},
+async carousel(s,ok){
+  s.style.background='#ececec';s.style.perspective='700px';
+  const D=[["Dallas","212 units","#c9a27e"],["Austin","96 units","#7ea3c9"],["Tampa","88 units","#c97e8f"],["Phoenix","140 units","#d8b25a"],["Denver","180 units","#7ec9a5"]];
+  const lab=$(`<div style="position:absolute;top:6%;left:0;right:0;font-weight:800;font-size:5cqw;color:#111;height:1.3em;overflow:hidden"><div class="li">${D[0][0]}</div></div>`);s.append(lab);
+  const cards=D.map((d,i)=>{const c=$(`<div style="position:absolute;left:50%;top:55%;width:40%;aspect-ratio:4/3;margin-left:-20%;transform-style:preserve-3d;transition:transform 550ms ${EIO},filter 550ms,opacity 550ms;border-radius:2cqw;background:linear-gradient(160deg,${d[2]},#222);color:#fff;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:2.5cqw;font-weight:800;font-size:4cqw;box-shadow:0 8px 20px rgba(0,0,0,.2)"><span style="font-size:2.2em;line-height:1;position:absolute;top:18%;left:0;right:0;text-align:center">🏢</span>${d[1]}</div>`);s.append(c);return c});
+  const place=(k)=>cards.forEach((c,i)=>{const o=i-k,a=Math.abs(o);c.style.transform=`translateY(-50%) translateX(${o*78}%) rotateY(${-o*38}deg) scale(${1-.16*a}) translateZ(${-a*30}px)`;c.style.filter=a?`blur(${a*1.5}px)`:'none';c.style.opacity=a>2?0:1;c.style.zIndex=10-a});
+  place(0);
+  for(let k=1;k<D.length;k++){await sleep(1000);if(!ok())return;place(k);
+    const li=lab.querySelector('.li');await A(li,[{transform:'none',opacity:1},{transform:'translateY(-100%)',opacity:0}],{duration:150}).finished;li.textContent=D[k][0];A(li,[{transform:'translateY(100%)',opacity:0},{transform:'none',opacity:1}],{duration:200,easing:EO})}
+},
+async aspect(s,ok){
+  const W=s.clientWidth,H=s.clientHeight;
+  const f=$(`<div style="position:relative;overflow:hidden;border-radius:10px;width:${W*.86}px;height:${W*.86*9/16}px"><div style="position:absolute;left:50%;top:50%;width:${W}px;height:${W}px;transform:translate(-50%,-50%);background:linear-gradient(180deg,#ff9a5a 0%,#ff5e62 38%,#2b1b3d 62%)"><div style="position:absolute;bottom:32%;left:0;right:0;height:14%;display:flex;align-items:flex-end;justify-content:center;gap:3%">${[40,70,55,90,60,80,45].map(h=>`<i style="width:7%;height:${h}%;background:#140d1f;display:block"></i>`).join('')}</div><div style="position:absolute;top:44%;left:0;right:0;font-weight:800;font-size:${W*.06}px">Dallas, 212 units</div></div></div>`);
+  s.append(f);await sleep(700);if(!ok())return;
+  const wide={width:W*.86+'px',height:W*.86*9/16+'px'},tall={width:H*.9*9/16+'px',height:H*.9+'px'};
+  await A(f,[wide,tall],{duration:1500,easing:EIO}).finished;if(!ok())return;await sleep(800);if(!ok())return;
+  A(f,[tall,wide],{duration:1500,easing:EIO});
+}
+};
+
+/* ---------- render ---------- */
+const main=document.getElementById('main'),chips=document.getElementById('chips');
+let jump=`<div class="jump" id="top-menu">`;
+SECTIONS.forEach(([id,name])=>{chips.insertAdjacentHTML('beforeend',`<a href="#${id}">${name}</a>`);
+  jump+=`<h3>${name}</h3><ul>`+FX.filter(f=>f[1]==id).map(f=>`<li><a href="#${f[0]}">${f[2]}</a></li>`).join('')+`</ul>`});
+main.insertAdjacentHTML('beforeend',jump+`</div>`);
+SECTIONS.forEach(([id,name,sub])=>{
+  main.insertAdjacentHTML('beforeend',`<h2 id="${id}">${name}</h2><p class="sub">${sub}</p>`);
+  FX.filter(f=>f[1]==id).forEach(([fid,,name,term,clip,slug,at,looks,timing,use,ask])=>{
+    const [title,x]=SRC[slug];
+    main.insertAdjacentHTML('beforeend',`<section class="card" id="${fid}">
+      <h3>${name}</h3><div class="term">${esc(term)}</div>
+      <div class="lbl">The original</div>
+      <div class="clip"><video src="whatships/${clip}.mp4" muted loop playsinline autoplay preload="metadata"></video></div>
+      <p class="credit">From <a href="https://whatships.com/videos/${slug}/">${esc(title)}</a> at ${at} &middot; <a href="${x}">post on X</a></p>
+      <div class="facts"><p><b>Looks like:</b> ${esc(looks)}</p><p><span class="timing"><b>Timing:</b> ${esc(timing)}</span></p><p><b>Use it for:</b> ${esc(use)}</p></div>
+      <div class="lbl">Our version <span class="note" style="text-transform:none;letter-spacing:0;font-weight:600">live, not a video</span></div>
+      <div class="stage" data-demo="${fid}"></div>
+      <button class="replay" data-for="${fid}" type="button">&#8635; Replay</button>
+      <div class="ask"><div class="k">How to ask for it</div><p>"${esc(ask)}"</p></div>
+    </section>`)})});
+
+function run(id){const s=document.querySelector(`.stage[data-demo="${id}"]`);const r=(s._run||0)+1;s._run=r;
+  s.getAnimations({subtree:true}).forEach(a=>a.cancel());s.innerHTML='';s.style.background='';s.style.perspective='';
+  DEMO[id](s,()=>s._run===r).catch(e=>{if(e.name!=='AbortError')console.error(id,e)})}
+document.addEventListener('click',e=>{const b=e.target.closest('.replay');if(b)run(b.dataset.for)});
+const io=new IntersectionObserver(es=>es.forEach(en=>{const t=en.target;
+  if(t.tagName==='VIDEO'){en.isIntersecting?t.play().catch(()=>{}):t.pause();return}
+  if(en.isIntersecting&&!t._seen){t._seen=1;run(t.dataset.demo)}}),{threshold:.4});
+document.querySelectorAll('.stage,.clip video').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
