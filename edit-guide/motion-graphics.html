@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#0c0c0e">
+<title>Motion Graphics: Edit Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.mg .top-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.mg h3{margin:0;font-size:20px;font-weight:800;line-height:1.2}
+.mg .abbr{margin:2px 0 0}
+.replay{flex:none;border:0;background:var(--red);color:#fff;font:800 15px "Plus Jakarta Sans",sans-serif;border-radius:999px;
+  padding:0 18px;min-height:46px;min-width:96px;display:flex;align-items:center;gap:6px;justify-content:center;cursor:pointer}
+.replay:active{transform:scale(.96)}
+.stage{position:relative;aspect-ratio:4/5;border-radius:14px;overflow:hidden;background:#000 url(img/guest.jpg) center 22%/cover;
+  container-type:inline-size;isolation:isolate}
+.stage.host{background-image:url(img/host.jpg)}
+.stage.dim::before{content:"";position:absolute;inset:0;background:rgba(0,0,0,.45);z-index:-1}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pair .stage{aspect-ratio:9/16}
+.cap{position:absolute;left:5%;right:5%;bottom:17%;text-align:center;font-weight:800;color:#fff;
+  font-size:9.5cqw;line-height:1.08;letter-spacing:-.01em;text-transform:uppercase;
+  text-shadow:0 .5cqw 2.2cqw rgba(0,0,0,.65)}
+.cap .w{display:inline-block;margin:0 .12em;will-change:transform,opacity}
+.red{color:var(--red)!important;text-shadow:0 0 3cqw rgba(255,42,42,.55),0 .5cqw 2.2cqw rgba(0,0,0,.7)!important}
+.tag{position:absolute;left:4%;font:800 3.4cqw "Plus Jakarta Sans",sans-serif;letter-spacing:.06em;background:rgba(0,0,0,.65);
+  color:#fff;padding:.8cqw 2cqw;border-radius:99px;text-transform:uppercase}
+.pair .tag{font-size:5.5cqw;padding:1.2cqw 3cqw}
+.pair .cap{font-size:13cqw}
+.mask{display:inline-block;overflow:hidden;vertical-align:bottom;padding:0 .04em .06em;margin-bottom:-.06em}
+.mask>span{display:inline-block}
+.cursor{display:inline-block;width:.08em;height:.9em;background:#fff;margin-left:.04em;vertical-align:-.08em;animation:blink .8s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.marker{position:relative;display:inline-block;padding:0 .12em;z-index:0}
+.marker::before{content:"";position:absolute;left:0;right:0;top:.06em;bottom:.02em;background:var(--red);z-index:-1;
+  transform:scaleX(var(--m,0));transform-origin:left;border-radius:.08em}
+.lt{position:absolute;left:6%;bottom:14%;text-align:left}
+.lt .n{font-weight:800;font-size:10cqw;color:#fff;line-height:1;text-shadow:0 .5cqw 2cqw rgba(0,0,0,.6)}
+.lt .bar{height:1.3cqw;background:var(--red);width:62cqw;margin:2cqw 0 1.6cqw;transform-origin:left}
+.lt .t{font-weight:700;font-size:4.6cqw;color:#fff;text-shadow:0 .4cqw 1.6cqw rgba(0,0,0,.8)}
+.emoji{position:absolute;left:0;right:0;bottom:36%;text-align:center;font-size:17cqw;line-height:1}
+.ease-row{position:absolute;left:5%;right:5%;height:16%}
+.ease-row .lbl{font:800 4.2cqw "Plus Jakarta Sans",sans-serif;color:#fff;text-shadow:0 2px 6px #000}
+.ease-row .track{position:absolute;left:0;right:0;bottom:12%;height:.8cqw;background:rgba(255,255,255,.25);border-radius:9px}
+.ease-row .dot{position:absolute;left:0;bottom:0;width:12cqw;height:12cqw;border-radius:50%;background:var(--red);
+  box-shadow:0 0 4cqw rgba(255,42,42,.6)}
+.cmp{position:absolute;left:5%;right:5%;text-align:center}
+.cmp .tag{position:static;display:inline-block;margin-bottom:1.5cqw}
+.cmp .cap{position:static;font-size:9cqw}
+.num{font-variant-numeric:tabular-nums}
+.refbox{margin-top:10px}
+.refbox video{width:100%;border-radius:12px;display:block;aspect-ratio:16/9;background:#000}
+.refbox .k{font-size:12px;font-weight:800;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin:0 0 6px}
+.shakeit{animation:shk .32s linear}
+@keyframes shk{0%,100%{transform:translate(0,0)}15%{transform:translate(-2.4%,1.6%)}30%{transform:translate(2.2%,-1.4%)}45%{transform:translate(-1.6%,-1.2%)}60%{transform:translate(1.4%,1.2%)}75%{transform:translate(-.8%,.6%)}}
+</style>
+</head><body>
+<div class="wrap"><a class="back" href="./">&larr; Edit guide home</a>
+<header class="top" style="padding-top:6px"><div class="eyebrow">Edit guide</div><h1>Motion graphics</h1>
+<p class="lead">How text and graphics move on screen. Every demo is live: it plays when you scroll to it, and the red button replays it. Font: Plus Jakarta Sans ExtraBold.</p></header></div>
+<nav class="chips"><div class="row">
+  <a href="#text-in">Text in</a><a href="#captions">Captions</a><a href="#emphasis">Emphasis</a><a href="#graphics">Graphics</a><a href="#easing">Easing</a>
+</div></nav>
+<main class="wrap" id="demos"></main>
+<footer class="wrap"><a href="./">Home</a> &middot; <a href="shots-and-edits.html">&larr; Shots &amp; edits</a></footer>
+
+<script>
+const SECTIONS = [
+ {id:"text-in", name:"How text comes in", sub:"The entrance: how a word or line first appears.", demos:[
+  {id:"pop", title:"Pop-in", aka:"SCALE POP (80 → 105 → 100%)",
+   def:"Each word grows from 80% to 105% and settles at 100% in about a quarter second. Our default caption entrance.",
+   ask:"Captions pop in word by word, subtle pop, key word red.", run:popIn},
+  {id:"pop-compare", title:"Subtle pop vs big pop", aka:"HOW STRONG",
+   def:"Same move, different strength. Subtle feels premium. Big feels loud and playful. Use big for one word per clip at most.",
+   ask:"Subtle pop on all captions, one big pop on \"MILLION\" at 0:09.", run:popCompare},
+  {id:"mask", title:"Slide-up mask reveal", aka:"MAGNIFIC STYLE / MASKED RISE",
+   def:"Words slide up from behind an invisible line, as if rising out of a slot. The bottom edge stays sharp. Clean and expensive-looking.",
+   ask:"Big number slides up from a mask, bottom left, like the Magnific ad. White number, red words after it.", run:maskReveal, ref:true},
+  {id:"type", title:"Typewriter", aka:"TYPE-ON",
+   def:"Letters appear one at a time with a blinking cursor.",
+   ask:"0:02, type-on the question, about 20 letters per second, with a cursor.", run:typewriter},
+ ]},
+ {id:"captions", name:"Captions", sub:"How the spoken words appear on screen.", demos:[
+  {id:"karaoke", title:"Word-by-word karaoke highlight", aka:"ACTIVE WORD HIGHLIGHT",
+   def:"The whole line is on screen; the word being spoken lights up red as they say it.",
+   ask:"Karaoke captions: full line white, the spoken word turns red with glow.", run:karaoke},
+  {id:"groups", title:"2-3 word groups vs one word at a time", aka:"CAPTION CHUNKING",
+   def:"Left: short groups, easy to read, calmer. Right: one word at a time, fast and punchy but tiring for a whole clip.",
+   ask:"Captions in 2 to 3 word groups, never more than 3 words on screen.", run:groups, pair:true},
+ ]},
+ {id:"emphasis", name:"Emphasis", sub:"Ways to make one word or number hit harder.", demos:[
+  {id:"count", title:"Count-up number", aka:"NUMBER ROLL / TICKER",
+   def:"A number counts up fast and slows down as it lands on the final value.",
+   ask:"0:14, count up from $0 to $200 MILLION in about 1.5s, then a small pop.", run:countUp},
+  {id:"slam", title:"Slam + shake", aka:"IMPACT / SCREEN SHAKE",
+   def:"The word crashes in from huge to normal size and the whole frame shakes.",
+   ask:"One slam on \"SOLD\" at 0:31, light shake, no sound effect.",
+   note:"Why it can feel cheap: it is the default effect in every template app, it gets old after one use, and a shake on every line reads as trying too hard. Save it for one moment per clip, or skip it.", run:slam},
+  {id:"glow", title:"Glow and drop shadow", aka:"NATHAN'S CURRENT CAPTION LOOK",
+   def:"Plain white text gets lost on busy backgrounds. A soft drop shadow makes it readable. Red (#FF2A2A) with a soft shadow plus a glow is our current look for key words.",
+   ask:"Key words red #FF2A2A with soft shadow and glow; other words white with soft shadow. No boxes.", run:glow},
+  {id:"marker", title:"Highlight box / marker", aka:"MARKER SWIPE",
+   def:"A color block swipes in behind one word, like a highlighter pen.",
+   ask:"0:05, red marker swipe behind \"NEVER\".",
+   note:"Heads up: our current caption style avoids boxes behind text. This is for a one-off emphasis, not every caption.", run:marker},
+  {id:"underline", title:"Underline draw-on", aka:"STROKE DRAW / ANIMATED UNDERLINE",
+   def:"A line draws itself under a word, like someone underlining it with a marker.",
+   ask:"0:22, draw a red hand-drawn underline under \"ONE\".", run:underline},
+ ]},
+ {id:"graphics", name:"Graphics", sub:"Elements that are not captions.", demos:[
+  {id:"lt", title:"Lower third name tag", aka:"NAME SUPER",
+   def:"The red bar wipes in, then the name and title fade up. Stays about 3 seconds.",
+   ask:"Lower third at 0:03: \"JEROME\" / \"Real estate investor\", red bar, 3s.", run:lowerThird},
+  {id:"emoji", title:"Emoji / icon pop", aka:"STICKER POP",
+   def:"An emoji or icon pops in with a little overshoot and wiggle next to the caption.",
+   ask:"0:12, pop a money bag emoji above the caption, small, 1.5s.", run:emojiPop},
+ ]},
+ {id:"easing", name:"Easing", sub:"How a move speeds up and slows down. The same move feels totally different.", demos:[
+  {id:"ease", title:"Linear vs ease-out vs bounce", aka:"EASING / MOTION CURVE",
+   def:"Linear: constant speed, feels robotic. Ease-out: fast start, soft landing, feels natural (use this by default). Bounce: overshoots and settles, feels playful.",
+   ask:"Use ease-out on all text moves, no bounce.", run:easing},
+ ]},
+];
+
+const EASE_OUT = "cubic-bezier(.16,1,.3,1)";
+const $ = (h) => { const t = document.createElement("template"); t.innerHTML = h.trim(); return t.content.firstChild; };
+const words = (txt, redSet=[]) => txt.split(" ").map(w => `<span class="w${redSet.includes(w)?" red":""}">${w}</span>`).join(" ");
+const wait = (ms, tok) => new Promise((res, rej) => setTimeout(() => tok.dead ? rej("stale") : res(), ms));
+
+/* ---------- demos: each gets (stage, token) ---------- */
+function popIn(s){
+  s.innerHTML = `<div class="cap">${words("THIS CHANGED EVERYTHING",["EVERYTHING"])}</div>`;
+  s.querySelectorAll(".w").forEach((w,i)=> w.animate(
+    [{transform:"scale(.8)",opacity:0},{transform:"scale(1.05)",opacity:1,offset:.6},{transform:"scale(1)",opacity:1}],
+    {duration:280,delay:200+i*380,easing:"ease-out",fill:"both"}));
+}
+function popCompare(s){
+  s.classList.add("dim");
+  s.innerHTML = `<div class="cmp" style="top:18%"><span class="tag">Subtle</span><div class="cap"><span class="w red">$200 MILLION</span></div></div>
+    <div class="cmp" style="top:56%"><span class="tag">Big</span><div class="cap"><span class="w red">$200 MILLION</span></div></div>`;
+  const [a,b] = s.querySelectorAll(".w");
+  a.animate([{transform:"scale(.95)",opacity:0},{transform:"scale(1.02)",opacity:1,offset:.6},{transform:"scale(1)",opacity:1}],
+    {duration:220,delay:300,easing:"ease-out",fill:"both"});
+  b.animate([{transform:"scale(.3)",opacity:0},{transform:"scale(1.28)",opacity:1,offset:.45},{transform:"scale(.94)",offset:.75},{transform:"scale(1)",opacity:1}],
+    {duration:520,delay:1400,easing:"ease-out",fill:"both"});
+}
+function maskReveal(s){
+  s.innerHTML = `<div style="position:absolute;left:6%;bottom:14%;font-weight:800;line-height:1;color:#fff;text-shadow:0 .5cqw 2cqw rgba(0,0,0,.5)">
+    <div style="font-size:5.5cqw;margin-bottom:1cqw"><span class="mask"><span>In real estate deals</span></span></div>
+    <span class="mask" style="font-size:19cqw;letter-spacing:-.03em"><span>$200M</span></span>
+    <span class="mask red" style="font-size:9cqw;margin-left:2cqw;white-space:nowrap;text-shadow:none!important"><span style="text-shadow:0 0 3cqw rgba(255,42,42,.5)">closed.</span></span>
+  </div>`;
+  s.querySelectorAll(".mask>span").forEach((m,i)=> m.animate(
+    [{transform:"translateY(110%)"},{transform:"translateY(0)"}],
+    {duration:620,delay:250+i*160,easing:"cubic-bezier(.2,.9,.2,1)",fill:"both"}));
+}
+async function typewriter(s,tok){
+  s.innerHTML = `<div class="cap" style="text-transform:none;font-size:8.2cqw"><span class="t"></span><span class="cursor"></span></div>`;
+  const t = s.querySelector(".t"), txt = "Most investors never ask this one question.";
+  await wait(300,tok);
+  for (let i=1;i<=txt.length;i++){ t.textContent = txt.slice(0,i); await wait(48,tok); }
+}
+async function karaoke(s,tok){
+  const line = ["I","BOUGHT","MY","FIRST","BUILDING","AT","24"];
+  s.innerHTML = `<div class="cap">${line.map(w=>`<span class="w">${w}</span>`).join(" ")}</div>`;
+  const ws = s.querySelectorAll(".w");
+  s.querySelector(".cap").animate([{opacity:0,transform:"translateY(8%)"},{opacity:1,transform:"none"}],{duration:250,easing:EASE_OUT,fill:"both"});
+  await wait(400,tok);
+  for (const w of ws){
+    ws.forEach(x=>x.classList.remove("red")); w.classList.add("red");
+    w.animate([{transform:"scale(1)"},{transform:"scale(1.1)"},{transform:"scale(1)"}],{duration:260,easing:"ease-out"});
+    await wait(w.textContent.length>4?460:330,tok);
+  }
+  ws.forEach(x=>x.classList.remove("red"));
+}
+async function groups(pair,tok){
+  const [L,R] = pair;
+  L.innerHTML = `<span class="tag" style="top:4%">2-3 words</span><div class="cap"></div>`;
+  R.innerHTML = `<span class="tag" style="top:4%">1 word</span><div class="cap"></div>`;
+  const G = [["I bought my",1000],["first building",1000],["at 24",900],["with no money",1100]];
+  const W = "I bought my first building at 24 with no money".split(" ");
+  const show = (el,txt) => { el.innerHTML = `<span class="w">${txt}</span>`;
+    el.firstChild.animate([{transform:"scale(.85)",opacity:0},{transform:"scale(1.04)",opacity:1,offset:.6},{transform:"scale(1)",opacity:1}],{duration:220,easing:"ease-out",fill:"both"}); };
+  const lc = L.querySelector(".cap"), rc = R.querySelector(".cap");
+  (async()=>{ await wait(300,tok); for (const [g,ms] of G){ show(lc,g.replace("building","<span class='red'>building</span>")); await wait(ms,tok);} })().catch(()=>{});
+  await wait(300,tok);
+  for (const w of W){ show(rc, w==="building"?`<span class='red'>${w}</span>`:w); await wait(w.length>3?520:380,tok); }
+}
+function countUp(s,tok){
+  s.classList.add("dim");
+  s.innerHTML = `<div class="cap" style="bottom:auto;top:34%"><div class="num" style="font-size:17cqw;line-height:1">$<span class="n">0</span></div>
+    <div class="red" style="font-size:10cqw">MILLION</div><div class="sub" style="font-size:5cqw;text-transform:none;opacity:0;margin-top:2cqw">in closed deals</div></div>`;
+  const n = s.querySelector(".n"), dur = 1500, t0 = performance.now() + 250;
+  const tick = (now) => { if (tok.dead) return;
+    const p = Math.min(1, Math.max(0,(now - t0)/dur)), e = 1 - Math.pow(1-p, 3);
+    n.textContent = Math.round(200*e);
+    if (p < 1) requestAnimationFrame(tick);
+    else { s.querySelector(".num").animate([{transform:"scale(1)"},{transform:"scale(1.08)"},{transform:"scale(1)"}],{duration:260,easing:"ease-out"});
+           s.querySelector(".sub").animate([{opacity:0,transform:"translateY(30%)"},{opacity:1,transform:"none"}],{duration:350,easing:EASE_OUT,fill:"both"}); } };
+  requestAnimationFrame(tick);
+}
+function slam(s){
+  s.innerHTML = `<div class="cap" style="font-size:22cqw;bottom:30%"><span class="w red">SOLD.</span></div>`;
+  s.querySelector(".w").animate([{transform:"scale(3.2)",opacity:0},{transform:"scale(.94)",opacity:1,offset:.8},{transform:"scale(1)",opacity:1}],
+    {duration:190,delay:400,easing:"ease-in",fill:"both"});
+  setTimeout(()=>{ s.classList.remove("shakeit"); void s.offsetWidth; s.classList.add("shakeit"); }, 560);
+}
+function glow(s){
+  s.innerHTML = `
+   <div class="cmp" style="top:9%"><span class="tag">1. Plain</span><div class="cap" style="text-shadow:none"><span class="w">CASH FLOW</span></div></div>
+   <div class="cmp" style="top:38%"><span class="tag">2. Drop shadow</span><div class="cap"><span class="w">CASH FLOW</span></div></div>
+   <div class="cmp" style="top:67%"><span class="tag">3. Red + shadow + glow</span><div class="cap"><span class="w red">CASH FLOW</span></div></div>`;
+  s.querySelectorAll(".cmp").forEach((c,i)=> c.animate([{opacity:0,transform:"scale(.9)"},{opacity:1,transform:"scale(1.03)",offset:.6},{opacity:1,transform:"none"}],
+    {duration:260,delay:250+i*650,easing:"ease-out",fill:"both"}));
+}
+function marker(s){
+  s.innerHTML = `<div class="cap">THE ONE RULE I <span class="marker">NEVER</span> BREAK</div>`;
+  const m = s.querySelector(".marker");
+  s.querySelector(".cap").animate([{opacity:0},{opacity:1}],{duration:200,fill:"both"});
+  let t0; const dur=320, delay=700;
+  const tick = (now)=>{ t0 ??= now; const p = Math.min(1,Math.max(0,(now-t0-delay)/dur)); m.style.setProperty("--m", 1-Math.pow(1-p,3)); if (p<1) requestAnimationFrame(tick); };
+  m.style.setProperty("--m",0); requestAnimationFrame(tick);
+}
+function underline(s){
+  s.innerHTML = `<div class="cap">RULE NUMBER <span style="position:relative;display:inline-block">ONE
+    <svg viewBox="0 0 100 20" preserveAspectRatio="none" style="position:absolute;left:-6%;width:112%;bottom:-.32em;height:.36em;overflow:visible">
+    <path d="M2 12 C 25 5, 55 4, 98 9" fill="none" stroke="#FF2A2A" stroke-width="5" stroke-linecap="round" pathLength="1"
+      style="stroke-dasharray:1;stroke-dashoffset:1;filter:drop-shadow(0 0 3px rgba(255,42,42,.7))"/></svg></span></div>`;
+  s.querySelector("path").animate([{strokeDashoffset:1},{strokeDashoffset:0}],{duration:450,delay:600,easing:"cubic-bezier(.4,0,.2,1)",fill:"both"});
+}
+function lowerThird(s){
+  s.innerHTML = `<div class="lt"><div class="n">JEROME</div><div class="bar"></div><div class="t">Guest &nbsp;|&nbsp; Real estate investor</div></div>`;
+  s.querySelector(".bar").animate([{transform:"scaleX(0)"},{transform:"scaleX(1)"}],{duration:420,delay:250,easing:EASE_OUT,fill:"both"});
+  s.querySelector(".n").animate([{opacity:0,transform:"translateY(25%)"},{opacity:1,transform:"none"}],{duration:380,delay:450,easing:EASE_OUT,fill:"both"});
+  s.querySelector(".t").animate([{opacity:0,transform:"translateY(-30%)"},{opacity:1,transform:"none"}],{duration:380,delay:600,easing:EASE_OUT,fill:"both"});
+  s.querySelector(".lt").animate([{opacity:1},{opacity:0}],{duration:300,delay:3300,fill:"forwards"});
+}
+function emojiPop(s){
+  s.innerHTML = `<div class="emoji"><span style="display:inline-block">💰</span></div><div class="cap">${words("CASH FLOW IS KING",["KING"])}</div>`;
+  s.querySelectorAll(".cap .w").forEach((w,i)=> w.animate([{transform:"scale(.8)",opacity:0},{transform:"scale(1.05)",opacity:1,offset:.6},{transform:"scale(1)",opacity:1}],
+    {duration:260,delay:150+i*200,easing:"ease-out",fill:"both"}));
+  const e = s.querySelector(".emoji span");
+  e.animate([{transform:"scale(0) rotate(-25deg)",opacity:0},{transform:"scale(1.3) rotate(10deg)",opacity:1,offset:.55},{transform:"scale(.92) rotate(-5deg)",offset:.8},{transform:"scale(1) rotate(0)",opacity:1}],
+    {duration:520,delay:950,easing:"ease-out",fill:"both"});
+  e.animate([{translate:"0 0"},{translate:"0 -6%"},{translate:"0 0"}],{duration:1400,delay:1500,iterations:2,easing:"ease-in-out"});
+}
+function easing(s){
+  s.classList.add("dim");
+  const rows = [["Linear","linear"],["Ease-out","ease"],["Bounce","bounce"]];
+  s.innerHTML = rows.map(([l],i)=>`<div class="ease-row" style="top:${14+i*27}%"><span class="lbl">${l}</span><div class="track"></div><div class="dot"></div></div>`).join("");
+  const dots = s.querySelectorAll(".dot"), end = "translateX(calc(90cqw - 12cqw))", start="translateX(0)";
+  const opt = {duration:1300,delay:400,fill:"both"};
+  dots[0].animate([{transform:start},{transform:end}],{...opt,easing:"linear"});
+  dots[1].animate([{transform:start},{transform:end}],{...opt,easing:EASE_OUT});
+  dots[2].animate([{transform:start,easing:"cubic-bezier(.5,0,.9,.5)"},{transform:end,offset:.5,easing:"cubic-bezier(.2,.6,.5,1)"},
+    {transform:"translateX(calc(90cqw - 12cqw - 9cqw))",offset:.7,easing:"cubic-bezier(.5,0,.8,.5)"},{transform:end,offset:.85,easing:"ease-out"},
+    {transform:"translateX(calc(90cqw - 12cqw - 3cqw))",offset:.93},{transform:end}],{...opt,duration:1500});
+}
+
+/* ---------- page builder ---------- */
+const main = document.getElementById("demos");
+const esc = (t) => t.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+for (const sec of SECTIONS){
+  main.insertAdjacentHTML("beforeend", `<h2 id="${sec.id}">${sec.name}</h2><p class="sub">${sec.sub}</p>`);
+  for (const d of sec.demos){
+    const stage = d.pair ? `<div class="pair"><div class="stage"></div><div class="stage host"></div></div>` : `<div class="stage${d.host?" host":""}"></div>`;
+    const ref = d.ref ? `<div class="refbox"><p class="k">Reference: the Magnific ad</p><video src="videos/magnific_ref.mp4" poster="videos/magnific_ref.jpg" autoplay muted loop playsinline preload="metadata"></video></div>` : "";
+    const card = $(`<article class="card mg" id="${d.id}">
+      <div class="top-row"><div><h3>${d.title}</h3><span class="abbr">${d.aka}</span></div><button class="replay" aria-label="Replay ${d.title}">&#8635; Replay</button></div>
+      ${stage}
+      <p class="def" style="margin-top:12px">${d.def}</p>
+      ${d.note?`<div class="note">${d.note}</div>`:""}
+      ${ref}
+      <div class="ask" title="Tap to copy"><span class="k">Ask for it like this</span>&ldquo;${esc(d.ask)}&rdquo;</div>
+    </article>`);
+    main.appendChild(card);
+    card._demo = d;
+    card.querySelector(".replay").addEventListener("click", () => play(card));
+  }
+}
+function play(card){
+  const d = card._demo;
+  if (card._tok) card._tok.dead = true;
+  const tok = card._tok = {dead:false};
+  const stages = [...card.querySelectorAll(".stage")];
+  stages.forEach(s => { s.getAnimations({subtree:true}).forEach(a=>a.cancel()); s.innerHTML=""; s.classList.remove("dim","shakeit"); });
+  const r = d.run(d.pair ? stages : stages[0], tok);
+  if (r && r.catch) r.catch(()=>{});
+}
+const io = new IntersectionObserver(es => es.forEach(en => {
+  if (en.isIntersecting && !en.target._seen){ en.target._seen = true; play(en.target); }
+  if (!en.isIntersecting) en.target._seen = false;
+}), {threshold:.55});
+document.querySelectorAll(".card.mg").forEach(c => io.observe(c));
+document.querySelectorAll(".ask").forEach(a => a.addEventListener("click", () => {
+  const t = a.textContent.replace("Ask for it like this","").replace(/[“”]/g,"").trim();
+  (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(()=>{
+    a.classList.add("copied"); setTimeout(()=>a.classList.remove("copied"),1200); }).catch(()=>{});
+}));
+</script>
+</body></html>

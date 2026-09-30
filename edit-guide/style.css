@@ -1,0 +1,76 @@
+:root{
+  --bg:#0c0c0e; --card:#17171b; --card2:#1f1f25; --line:#2a2a31;
+  --text:#f3f3f5; --muted:#a3a3ad; --red:#FF2A2A; --red-soft:rgba(255,42,42,.14);
+  --radius:18px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth;scroll-padding-top:74px}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:"Plus Jakarta Sans",system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.5;
+  -webkit-text-size-adjust:100%;padding-bottom:env(safe-area-inset-bottom)}
+a{color:inherit}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+header.top{padding:28px 0 8px}
+.eyebrow{color:var(--red);font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:13px}
+h1{font-size:32px;line-height:1.1;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+h2{font-size:24px;margin:34px 0 4px;font-weight:800;letter-spacing:-.01em}
+h2 + .sub{color:var(--muted);margin:0 0 14px;font-size:15px}
+p.lead{color:var(--muted);margin:0 0 8px;font-size:16px}
+.back{display:inline-flex;align-items:center;gap:6px;color:var(--muted);text-decoration:none;font-weight:700;font-size:15px;padding:10px 0;min-height:44px}
+
+/* sticky section chips */
+nav.chips{position:sticky;top:0;z-index:20;background:rgba(12,12,14,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line)}
+nav.chips .row{display:flex;gap:8px;overflow-x:auto;padding:10px 16px;max-width:760px;margin:0 auto;scrollbar-width:none}
+nav.chips .row::-webkit-scrollbar{display:none}
+nav.chips a{flex:none;text-decoration:none;font-weight:700;font-size:15px;padding:10px 16px;border-radius:999px;background:var(--card2);min-height:44px;display:flex;align-items:center}
+nav.chips a:active{background:var(--red);color:#fff}
+
+/* term cards */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin:0 0 14px}
+.card .head{display:grid;grid-template-columns:42% 1fr;gap:14px;align-items:start}
+.card .media{position:relative;border-radius:12px;overflow:hidden;background:#000;aspect-ratio:9/16}
+.card .media.wide{aspect-ratio:16/9}
+.card video,.card .media img{width:100%;height:100%;object-fit:cover;display:block}
+.card .speed{position:absolute;right:6px;bottom:6px;font-size:11px;font-weight:800;background:rgba(0,0,0,.65);padding:3px 7px;border-radius:999px;color:#fff;pointer-events:none}
+.card h3{margin:0 0 2px;font-size:20px;line-height:1.2;font-weight:800}
+.card .abbr{display:inline-block;color:var(--red);font-weight:800;font-size:13px;letter-spacing:.04em;margin-bottom:6px}
+.card .def{margin:0;font-size:15px;color:#dcdce2}
+.card .when{margin:12px 0 0;font-size:14.5px;color:var(--muted)}
+.card .when b{color:var(--text)}
+.ask{margin-top:12px;background:var(--red-soft);border:1px solid rgba(255,42,42,.35);border-radius:12px;padding:12px 14px;
+  font-size:15px;cursor:pointer;position:relative;min-height:44px}
+.ask .k{display:block;font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--red);text-transform:uppercase;margin-bottom:2px}
+.ask.copied::after{content:"Copied";position:absolute;right:10px;top:10px;font-size:11px;font-weight:800;background:var(--red);color:#fff;padding:2px 8px;border-radius:999px}
+.note{font-size:13px;color:var(--muted);margin-top:8px;font-style:italic}
+
+/* hub */
+.hub{display:grid;gap:14px;margin:18px 0}
+.hub a{display:block;text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;position:relative;overflow:hidden;min-height:120px}
+.hub a h3{margin:0 0 4px;font-size:22px;font-weight:800}
+.hub a p{margin:0;color:var(--muted);font-size:15px;padding-right:40px}
+.hub a .go{position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:28px;color:var(--red);font-weight:800}
+.formula{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0;font-weight:800}
+.formula span.t{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:15px}
+.formula span.p{color:var(--red);font-size:20px}
+.examples{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.examples li{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--red);border-radius:12px;padding:12px 14px;cursor:pointer;min-height:44px;position:relative}
+.examples li .q{font-weight:700;font-size:16px}
+.examples li .why{display:block;color:var(--muted);font-size:13.5px;margin-top:4px}
+.examples li.copied::after{content:"Copied";position:absolute;right:10px;top:10px;font-size:11px;font-weight:800;background:var(--red);color:#fff;padding:2px 8px;border-radius:999px}
+table.scale{width:100%;border-collapse:collapse;font-size:14.5px;margin:10px 0}
+table.scale td,table.scale th{border-bottom:1px solid var(--line);padding:10px 6px;text-align:left;vertical-align:top}
+table.scale th{color:var(--red);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.tips{padding-left:20px;color:#dcdce2}
+.tips li{margin:6px 0}
+footer{color:var(--muted);font-size:13px;padding:30px 0 40px;text-align:center}
+
+/* diagram (hook/payoff) */
+.timeline{display:flex;border-radius:10px;overflow:hidden;font-size:12px;font-weight:800;margin-top:10px}
+.timeline div{padding:10px 6px;text-align:center}
+.timeline .h{background:var(--red);flex:1}
+.timeline .b{background:#33333b;flex:4}
+.timeline .p{background:#6a6a74;flex:1.4}
+.timeline .k{background:#fff;color:#000;flex:.8}
+
+@media (max-width:370px){.card .head{grid-template-columns:40% 1fr}.card h3{font-size:18px}}

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#0c0c0e">
+<title>Edit Guide: how to ask for an edit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head><body>
+<main class="wrap">
+<header class="top"><div class="eyebrow">Edit guide</div>
+<h1>Say exactly what edit you want.</h1>
+<p class="lead">The words editors use, shown on our own podcast footage. Look up a term, copy the request, send it.</p></header>
+
+<div class="hub">
+  <a href="shots-and-edits.html"><h3>Shots &amp; edits</h3><p>Shot sizes, zooms, cuts, split screen, freeze frames, color. 32 terms, each shown on real footage.</p><span class="go">&rarr;</span></a>
+  <a href="motion-graphics.html"><h3>Motion graphics</h3><p>How text and graphics move: pop-in, slide-up reveal, karaoke captions, count-up, glow. Live demos with replay.</p><span class="go">&rarr;</span></a>
+</div>
+
+<h2>How to ask for an edit</h2>
+<p class="sub">One request = where + what + how much.</p>
+<div class="formula"><span class="t">[timestamp]</span><span class="p">+</span><span class="t">[shot or effect term]</span><span class="p">+</span><span class="t">[how long / how strong]</span></div>
+
+<ul class="examples" id="ex">
+  <li><span class="q">0:12, slow push-in on Jerome for 3s, subtle.</span><span class="why">Where, what, how long, how strong. Perfect.</span></li>
+  <li><span class="q">0:09, punch in on "million", about 30% tighter.</span><span class="why">Name the word the effect lands on.</span></li>
+  <li><span class="q">0:17 to 0:20, full-screen takeover on Jerome, then back to split.</span><span class="why">Give a start and end time for anything that lasts.</span></li>
+  <li><span class="q">Captions: 2 to 3 words at a time, key word red with glow, subtle pop-in.</span><span class="why">For a whole-clip style, skip the timestamp and say "all captions".</span></li>
+  <li><span class="q">0:40, dip to black before the last line, 0.5s.</span><span class="why">Short transitions: give the length in seconds.</span></li>
+</ul>
+<p class="note">Tap an example to copy it.</p>
+
+<h2>Strength and speed words</h2>
+<p class="sub">Use these so "a little" means the same thing to everyone.</p>
+<table class="scale">
+  <tr><th>Say</th><th>Means</th></tr>
+  <tr><td><b>Subtle</b></td><td>You feel it more than see it. Zoom 5 to 10%, pop 95 to 102%.</td></tr>
+  <tr><td><b>Medium</b></td><td>Clearly visible. Zoom 15 to 25%.</td></tr>
+  <tr><td><b>Big / hard</b></td><td>Impossible to miss. Zoom 30%+, big overshoot.</td></tr>
+  <tr><td><b>Slow</b></td><td>2 to 4 seconds.</td></tr>
+  <tr><td><b>Quick</b></td><td>0.3 to 0.5 seconds.</td></tr>
+  <tr><td><b>Instant</b></td><td>On the cut, zero frames of motion (a punch-in).</td></tr>
+</table>
+
+<h2>Tips</h2>
+<ul class="tips">
+  <li>Say <b>who</b>: "on JMac" or "on Jerome".</li>
+  <li>Timestamps come from the draft you are watching, not the full episode.</li>
+  <li>Say what you <b>don't</b> want too: "no sound effects", "no boxes behind captions".</li>
+  <li>Not sure of the word? Send the timestamp plus "like the ___ demo in the edit guide".</li>
+  <li>One change per line. Numbered lists are easiest to work through.</li>
+</ul>
+</main>
+<footer class="wrap">Private reference. Demos use BWW podcast footage (JMac &amp; Jerome).</footer>
+<script>
+document.querySelectorAll("#ex li").forEach(li => li.addEventListener("click", () => {
+  const t = li.querySelector(".q").textContent;
+  (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(() => {
+    li.classList.add("copied"); setTimeout(() => li.classList.remove("copied"), 1200);
+  }).catch(()=>{});
+}));
+</script>
+</body></html>
